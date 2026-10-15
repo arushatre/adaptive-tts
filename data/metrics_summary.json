@@ -1,0 +1,3822 @@
+{
+  "source": {
+    "csv": "data/raw/clips_arush.csv",
+    "runInfo": "data/raw/wer_run_info.json",
+    "rows": 972,
+    "checks": {
+      "corpusWer": "pass (no_intro, full)",
+      "corpusCerByRunNfe": "pass (36/36)",
+      "summaryMd": "pass (40/40)"
+    }
+  },
+  "asr": {
+    "package": "faster-whisper",
+    "packageVersion": "1.2.1",
+    "model": "small",
+    "computeType": "int8",
+    "beamSize": 5,
+    "temperature": 0,
+    "language": "en",
+    "rejection": "clips shorter than 0.5 s or with RMS < 1e-3 (about -60 dBFS) are not transcribed"
+  },
+  "normalization": {
+    "base": "Whisper EnglishTextNormalizer (whisper-normalizer 0.1.15)",
+    "order": "lowercase -> PRE_RULES -> Whisper EnglishTextNormalizer -> POST_RULES -> collapse spaces",
+    "customRules": 15
+  },
+  "jiwerVersion": "4.0.0",
+  "officialVersion": "no_intro",
+  "introPhrase": "Hey, Adam here. Let's create something that feels real, sounds human, and connects every time.",
+  "nfe": [
+    4,
+    6,
+    8,
+    10,
+    12,
+    16,
+    20,
+    24,
+    32
+  ],
+  "promptCount": 54,
+  "overall": {
+    "clips": 972,
+    "rejectedClips": 4,
+    "refWords": 21798,
+    "wer": {
+      "no_intro": {
+        "value": 0.5831727681438664,
+        "errors": 12712
+      },
+      "full": {
+        "value": 0.708872373612258,
+        "errors": 15452
+      }
+    },
+    "cer": {
+      "no_intro": {
+        "value": 0.5682653757215818,
+        "errors": 68318
+      },
+      "full": {
+        "value": 0.6024105405000748,
+        "errors": 72423
+      }
+    }
+  },
+  "cleanSet": {
+    "run": "xvector_4090",
+    "lengths": [
+      "short",
+      "medium"
+    ],
+    "prompts": 36,
+    "clips": 324,
+    "rejectedClips": 0,
+    "refWords": 3699,
+    "refChars": 20439,
+    "wer": {
+      "no_intro": {
+        "value": 0.03514463368477967,
+        "errors": 130
+      },
+      "full": {
+        "value": 0.03514463368477967,
+        "errors": 130
+      }
+    },
+    "cer": {
+      "no_intro": {
+        "value": 0.01731982973726699,
+        "errors": 354
+      },
+      "full": {
+        "value": 0.01731982973726699,
+        "errors": 354
+      }
+    },
+    "errorTypes": {
+      "subs": 91,
+      "dels": 13,
+      "ins": 26,
+      "trailingDels": 6
+    },
+    "unfinishedClips": 7,
+    "werHeard": {
+      "value": 0.03009761388286334,
+      "errors": 111,
+      "refWords": 3688
+    },
+    "maxDurationS": 10.72,
+    "werRange": {
+      "min": 0.0267639902676399,
+      "max": 0.046228710462287104,
+      "minNfe": [
+        4,
+        32
+      ],
+      "maxNfe": [
+        16
+      ]
+    },
+    "byNfe": [
+      {
+        "nfe": 4,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.0267639902676399,
+            "errors": 11
+          },
+          "full": {
+            "value": 0.0267639902676399,
+            "errors": 11
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.011889035667107,
+            "errors": 27
+          },
+          "full": {
+            "value": 0.011889035667107,
+            "errors": 27
+          }
+        },
+        "errorTypes": {
+          "subs": 8,
+          "dels": 0,
+          "ins": 3,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 0,
+        "werHeard": {
+          "value": 0.0267639902676399,
+          "errors": 11,
+          "refWords": 411
+        }
+      },
+      {
+        "nfe": 6,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.038929440389294405,
+            "errors": 16
+          },
+          "full": {
+            "value": 0.038929440389294405,
+            "errors": 16
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.016292382210479964,
+            "errors": 37
+          },
+          "full": {
+            "value": 0.016292382210479964,
+            "errors": 37
+          }
+        },
+        "errorTypes": {
+          "subs": 12,
+          "dels": 2,
+          "ins": 2,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 1,
+        "werHeard": {
+          "value": 0.036585365853658534,
+          "errors": 15,
+          "refWords": 410
+        }
+      },
+      {
+        "nfe": 8,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.0364963503649635,
+            "errors": 15
+          },
+          "full": {
+            "value": 0.0364963503649635,
+            "errors": 15
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.017173051519154558,
+            "errors": 39
+          },
+          "full": {
+            "value": 0.017173051519154558,
+            "errors": 39
+          }
+        },
+        "errorTypes": {
+          "subs": 10,
+          "dels": 0,
+          "ins": 5,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 0,
+        "werHeard": {
+          "value": 0.029197080291970802,
+          "errors": 12,
+          "refWords": 411
+        }
+      },
+      {
+        "nfe": 10,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.0364963503649635,
+            "errors": 15
+          },
+          "full": {
+            "value": 0.0364963503649635,
+            "errors": 15
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.01893439013650374,
+            "errors": 43
+          },
+          "full": {
+            "value": 0.01893439013650374,
+            "errors": 43
+          }
+        },
+        "errorTypes": {
+          "subs": 9,
+          "dels": 4,
+          "ins": 2,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 1,
+        "werHeard": {
+          "value": 0.03170731707317073,
+          "errors": 13,
+          "refWords": 410
+        }
+      },
+      {
+        "nfe": 12,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.031630170316301706,
+            "errors": 13
+          },
+          "full": {
+            "value": 0.031630170316301706,
+            "errors": 13
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.01893439013650374,
+            "errors": 43
+          },
+          "full": {
+            "value": 0.01893439013650374,
+            "errors": 43
+          }
+        },
+        "errorTypes": {
+          "subs": 10,
+          "dels": 2,
+          "ins": 1,
+          "trailingDels": 2
+        },
+        "unfinishedClips": 2,
+        "werHeard": {
+          "value": 0.022058823529411766,
+          "errors": 9,
+          "refWords": 408
+        }
+      },
+      {
+        "nfe": 16,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.046228710462287104,
+            "errors": 19
+          },
+          "full": {
+            "value": 0.046228710462287104,
+            "errors": 19
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.023778071334214,
+            "errors": 54
+          },
+          "full": {
+            "value": 0.023778071334214,
+            "errors": 54
+          }
+        },
+        "errorTypes": {
+          "subs": 12,
+          "dels": 2,
+          "ins": 5,
+          "trailingDels": 2
+        },
+        "unfinishedClips": 2,
+        "werHeard": {
+          "value": 0.0343980343980344,
+          "errors": 14,
+          "refWords": 407
+        }
+      },
+      {
+        "nfe": 20,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.0364963503649635,
+            "errors": 15
+          },
+          "full": {
+            "value": 0.0364963503649635,
+            "errors": 15
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.017613386173491855,
+            "errors": 40
+          },
+          "full": {
+            "value": 0.017613386173491855,
+            "errors": 40
+          }
+        },
+        "errorTypes": {
+          "subs": 11,
+          "dels": 0,
+          "ins": 4,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 0,
+        "werHeard": {
+          "value": 0.031630170316301706,
+          "errors": 13,
+          "refWords": 411
+        }
+      },
+      {
+        "nfe": 24,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.0364963503649635,
+            "errors": 15
+          },
+          "full": {
+            "value": 0.0364963503649635,
+            "errors": 15
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.01805372082782915,
+            "errors": 41
+          },
+          "full": {
+            "value": 0.01805372082782915,
+            "errors": 41
+          }
+        },
+        "errorTypes": {
+          "subs": 11,
+          "dels": 1,
+          "ins": 3,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 0,
+        "werHeard": {
+          "value": 0.0364963503649635,
+          "errors": 15,
+          "refWords": 411
+        }
+      },
+      {
+        "nfe": 32,
+        "clips": 36,
+        "rejectedClips": 0,
+        "refWords": 411,
+        "refChars": 2271,
+        "wer": {
+          "no_intro": {
+            "value": 0.0267639902676399,
+            "errors": 11
+          },
+          "full": {
+            "value": 0.0267639902676399,
+            "errors": 11
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.013210039630118891,
+            "errors": 30
+          },
+          "full": {
+            "value": 0.013210039630118891,
+            "errors": 30
+          }
+        },
+        "errorTypes": {
+          "subs": 8,
+          "dels": 2,
+          "ins": 1,
+          "trailingDels": 2
+        },
+        "unfinishedClips": 1,
+        "werHeard": {
+          "value": 0.022004889975550123,
+          "errors": 9,
+          "refWords": 409
+        }
+      }
+    ],
+    "byContent": [
+      {
+        "content": "plain",
+        "clips": 54,
+        "rejectedClips": 0,
+        "refWords": 657,
+        "refChars": 3627,
+        "wer": {
+          "no_intro": {
+            "value": 0,
+            "errors": 0
+          },
+          "full": {
+            "value": 0,
+            "errors": 0
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0,
+            "errors": 0
+          },
+          "full": {
+            "value": 0,
+            "errors": 0
+          }
+        },
+        "errorTypes": {
+          "subs": 0,
+          "dels": 0,
+          "ins": 0,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 0,
+        "werHeard": {
+          "value": 0,
+          "errors": 0,
+          "refWords": 657
+        }
+      },
+      {
+        "content": "numbers",
+        "clips": 54,
+        "rejectedClips": 0,
+        "refWords": 567,
+        "refChars": 2889,
+        "wer": {
+          "no_intro": {
+            "value": 0.019400352733686066,
+            "errors": 11
+          },
+          "full": {
+            "value": 0.019400352733686066,
+            "errors": 11
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.01176877812391831,
+            "errors": 34
+          },
+          "full": {
+            "value": 0.01176877812391831,
+            "errors": 34
+          }
+        },
+        "errorTypes": {
+          "subs": 4,
+          "dels": 7,
+          "ins": 0,
+          "trailingDels": 6
+        },
+        "unfinishedClips": 4,
+        "werHeard": {
+          "value": 0.007142857142857143,
+          "errors": 4,
+          "refWords": 560
+        }
+      },
+      {
+        "content": "names_rare_words",
+        "clips": 54,
+        "rejectedClips": 0,
+        "refWords": 585,
+        "refChars": 3843,
+        "wer": {
+          "no_intro": {
+            "value": 0.14871794871794872,
+            "errors": 87
+          },
+          "full": {
+            "value": 0.14871794871794872,
+            "errors": 87
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.05984907624251887,
+            "errors": 230
+          },
+          "full": {
+            "value": 0.05984907624251887,
+            "errors": 230
+          }
+        },
+        "errorTypes": {
+          "subs": 63,
+          "dels": 4,
+          "ins": 20,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 2,
+        "werHeard": {
+          "value": 0.1423670668953688,
+          "errors": 83,
+          "refWords": 583
+        }
+      },
+      {
+        "content": "acronyms_abbreviations",
+        "clips": 54,
+        "rejectedClips": 0,
+        "refWords": 702,
+        "refChars": 3348,
+        "wer": {
+          "no_intro": {
+            "value": 0.011396011396011397,
+            "errors": 8
+          },
+          "full": {
+            "value": 0.011396011396011397,
+            "errors": 8
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.007765830346475508,
+            "errors": 26
+          },
+          "full": {
+            "value": 0.007765830346475508,
+            "errors": 26
+          }
+        },
+        "errorTypes": {
+          "subs": 5,
+          "dels": 2,
+          "ins": 1,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 1,
+        "werHeard": {
+          "value": 0.007142857142857143,
+          "errors": 5,
+          "refWords": 700
+        }
+      },
+      {
+        "content": "prosody",
+        "clips": 54,
+        "rejectedClips": 0,
+        "refWords": 621,
+        "refChars": 3051,
+        "wer": {
+          "no_intro": {
+            "value": 0.008051529790660225,
+            "errors": 5
+          },
+          "full": {
+            "value": 0.008051529790660225,
+            "errors": 5
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.0058997050147492625,
+            "errors": 18
+          },
+          "full": {
+            "value": 0.0058997050147492625,
+            "errors": 18
+          }
+        },
+        "errorTypes": {
+          "subs": 0,
+          "dels": 0,
+          "ins": 5,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 0,
+        "werHeard": {
+          "value": 0,
+          "errors": 0,
+          "refWords": 621
+        }
+      },
+      {
+        "content": "phonetic",
+        "clips": 54,
+        "rejectedClips": 0,
+        "refWords": 567,
+        "refChars": 3681,
+        "wer": {
+          "no_intro": {
+            "value": 0.03350970017636684,
+            "errors": 19
+          },
+          "full": {
+            "value": 0.03350970017636684,
+            "errors": 19
+          }
+        },
+        "cer": {
+          "no_intro": {
+            "value": 0.012496604183645748,
+            "errors": 46
+          },
+          "full": {
+            "value": 0.012496604183645748,
+            "errors": 46
+          }
+        },
+        "errorTypes": {
+          "subs": 19,
+          "dels": 0,
+          "ins": 0,
+          "trailingDels": 0
+        },
+        "unfinishedClips": 0,
+        "werHeard": {
+          "value": 0.03350970017636684,
+          "errors": 19,
+          "refWords": 567
+        }
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "orig_3090",
+      "clips": 486,
+      "rejectedClips": 4,
+      "refWords": 10899,
+      "refChars": 60111,
+      "wer": {
+        "no_intro": {
+          "value": 0.9661436829066887,
+          "errors": 10530
+        },
+        "full": {
+          "value": 1.2175428938434718,
+          "errors": 13270
+        }
+      },
+      "cer": {
+        "no_intro": {
+          "value": 0.9566801417377852,
+          "errors": 57507
+        },
+        "full": {
+          "value": 1.0249704712947714,
+          "errors": 61612
+        }
+      },
+      "errorTypes": {
+        "subs": 239,
+        "dels": 9758,
+        "ins": 533,
+        "trailingDels": 9687
+      },
+      "unfinishedClips": 416,
+      "werHeard": {
+        "value": 0.2550335570469799,
+        "errors": 266,
+        "refWords": 1043
+      },
+      "introClips": 481,
+      "maxDurationS": 9.12,
+      "clipsAtMaxDuration": 445,
+      "werRange": {
+        "min": 0.9075144508670521,
+        "max": 1.0867052023121386,
+        "minNfe": [
+          10
+        ],
+        "maxNfe": [
+          16
+        ]
+      },
+      "byNfe": [
+        {
+          "nfe": 4,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.9834847233691164,
+              "errors": 1191
+            },
+            "full": {
+              "value": 1.2691990090834022,
+              "errors": 1537
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9742476418625543,
+              "errors": 6507
+            },
+            "full": {
+              "value": 1.0796526426111694,
+              "errors": 7211
+            }
+          },
+          "errorTypes": {
+            "subs": 47,
+            "dels": 1031,
+            "ins": 113,
+            "trailingDels": 1030
+          },
+          "unfinishedClips": 46,
+          "werHeard": {
+            "value": 0.8333333333333334,
+            "errors": 125,
+            "refWords": 150
+          }
+        },
+        {
+          "nfe": 6,
+          "clips": 54,
+          "rejectedClips": 1,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.9587118084227911,
+              "errors": 1161
+            },
+            "full": {
+              "value": 1.2105697770437656,
+              "errors": 1466
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9544842042221889,
+              "errors": 6375
+            },
+            "full": {
+              "value": 1.030393771522683,
+              "errors": 6882
+            }
+          },
+          "errorTypes": {
+            "subs": 20,
+            "dels": 1084,
+            "ins": 57,
+            "trailingDels": 1084
+          },
+          "unfinishedClips": 47,
+          "werHeard": {
+            "value": 0.01834862385321101,
+            "errors": 2,
+            "refWords": 109
+          }
+        },
+        {
+          "nfe": 8,
+          "clips": 54,
+          "rejectedClips": 3,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.9182493806771264,
+              "errors": 1112
+            },
+            "full": {
+              "value": 1.17588769611891,
+              "errors": 1424
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9170534511154365,
+              "errors": 6125
+            },
+            "full": {
+              "value": 1.014672855217847,
+              "errors": 6777
+            }
+          },
+          "errorTypes": {
+            "subs": 15,
+            "dels": 1084,
+            "ins": 13,
+            "trailingDels": 1084
+          },
+          "unfinishedClips": 45,
+          "werHeard": {
+            "value": 0.008849557522123894,
+            "errors": 1,
+            "refWords": 113
+          }
+        },
+        {
+          "nfe": 10,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.9075144508670521,
+              "errors": 1099
+            },
+            "full": {
+              "value": 1.153592072667217,
+              "errors": 1397
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9062733942206918,
+              "errors": 6053
+            },
+            "full": {
+              "value": 0.9727504117382841,
+              "errors": 6497
+            }
+          },
+          "errorTypes": {
+            "subs": 10,
+            "dels": 1089,
+            "ins": 0,
+            "trailingDels": 1089
+          },
+          "unfinishedClips": 43,
+          "werHeard": {
+            "value": 0.02608695652173913,
+            "errors": 3,
+            "refWords": 115
+          }
+        },
+        {
+          "nfe": 12,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.9240297274979355,
+              "errors": 1119
+            },
+            "full": {
+              "value": 1.157720891824938,
+              "errors": 1402
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9231920946249439,
+              "errors": 6166
+            },
+            "full": {
+              "value": 0.9672106602784848,
+              "errors": 6460
+            }
+          },
+          "errorTypes": {
+            "subs": 15,
+            "dels": 1104,
+            "ins": 0,
+            "trailingDels": 1104
+          },
+          "unfinishedClips": 46,
+          "werHeard": {
+            "value": 0.031578947368421054,
+            "errors": 3,
+            "refWords": 95
+          }
+        },
+        {
+          "nfe": 16,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 1.0867052023121386,
+              "errors": 1316
+            },
+            "full": {
+              "value": 1.35177539223782,
+              "errors": 1637
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 1.058541697858961,
+              "errors": 7070
+            },
+            "full": {
+              "value": 1.1401407396316814,
+              "errors": 7615
+            }
+          },
+          "errorTypes": {
+            "subs": 72,
+            "dels": 1057,
+            "ins": 187,
+            "trailingDels": 1027
+          },
+          "unfinishedClips": 47,
+          "werHeard": {
+            "value": 0.3968253968253968,
+            "errors": 50,
+            "refWords": 126
+          }
+        },
+        {
+          "nfe": 20,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.9826589595375722,
+              "errors": 1190
+            },
+            "full": {
+              "value": 1.2146985962014865,
+              "errors": 1471
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9723012427010032,
+              "errors": 6494
+            },
+            "full": {
+              "value": 1.001048061086989,
+              "errors": 6686
+            }
+          },
+          "errorTypes": {
+            "subs": 20,
+            "dels": 1116,
+            "ins": 54,
+            "trailingDels": 1080
+          },
+          "unfinishedClips": 48,
+          "werHeard": {
+            "value": 0.42063492063492064,
+            "errors": 53,
+            "refWords": 126
+          }
+        },
+        {
+          "nfe": 24,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 1.022295623451693,
+              "errors": 1238
+            },
+            "full": {
+              "value": 1.2477291494632534,
+              "errors": 1511
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9965563707141788,
+              "errors": 6656
+            },
+            "full": {
+              "value": 1.0332385087587963,
+              "errors": 6901
+            }
+          },
+          "errorTypes": {
+            "subs": 23,
+            "dels": 1109,
+            "ins": 106,
+            "trailingDels": 1106
+          },
+          "unfinishedClips": 49,
+          "werHeard": {
+            "value": 0.22340425531914893,
+            "errors": 21,
+            "refWords": 94
+          }
+        },
+        {
+          "nfe": 32,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.911643270024773,
+              "errors": 1104
+            },
+            "full": {
+              "value": 1.176713459950454,
+              "errors": 1425
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9074711783201078,
+              "errors": 6061
+            },
+            "full": {
+              "value": 0.985626590807007,
+              "errors": 6583
+            }
+          },
+          "errorTypes": {
+            "subs": 17,
+            "dels": 1084,
+            "ins": 3,
+            "trailingDels": 1083
+          },
+          "unfinishedClips": 45,
+          "werHeard": {
+            "value": 0.06956521739130435,
+            "errors": 8,
+            "refWords": 115
+          }
+        }
+      ],
+      "byLength": [
+        {
+          "length": "short",
+          "clips": 162,
+          "rejectedClips": 0,
+          "refWords": 882,
+          "refChars": 4716,
+          "wer": {
+            "no_intro": {
+              "value": 0.47959183673469385,
+              "errors": 423
+            },
+            "full": {
+              "value": 3.2732426303854876,
+              "errors": 2887
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.453774385072095,
+              "errors": 2140
+            },
+            "full": {
+              "value": 3.275869380831213,
+              "errors": 15449
+            }
+          },
+          "errorTypes": {
+            "subs": 73,
+            "dels": 183,
+            "ins": 167,
+            "trailingDels": 181
+          },
+          "unfinishedClips": 94,
+          "werHeard": {
+            "value": 0.03576982892690513,
+            "errors": 23,
+            "refWords": 643
+          },
+          "clipsAtMaxDuration": 121
+        },
+        {
+          "length": "medium",
+          "clips": 162,
+          "rejectedClips": 0,
+          "refWords": 2817,
+          "refChars": 15723,
+          "wer": {
+            "no_intro": {
+              "value": 1.0585729499467518,
+              "errors": 2982
+            },
+            "full": {
+              "value": 1.1856585019524317,
+              "errors": 3340
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 1.0321821535330407,
+              "errors": 16229
+            },
+            "full": {
+              "value": 0.9340456655854481,
+              "errors": 14686
+            }
+          },
+          "errorTypes": {
+            "subs": 131,
+            "dels": 2485,
+            "ins": 366,
+            "trailingDels": 2470
+          },
+          "unfinishedClips": 160,
+          "werHeard": {
+            "value": 0.688212927756654,
+            "errors": 181,
+            "refWords": 263
+          },
+          "clipsAtMaxDuration": 162
+        },
+        {
+          "length": "long",
+          "clips": 162,
+          "rejectedClips": 4,
+          "refWords": 7200,
+          "refChars": 39672,
+          "wer": {
+            "no_intro": {
+              "value": 0.9895833333333334,
+              "errors": 7125
+            },
+            "full": {
+              "value": 0.9781944444444445,
+              "errors": 7043
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.98653962492438,
+              "errors": 39138
+            },
+            "full": {
+              "value": 0.7934311353095382,
+              "errors": 31477
+            }
+          },
+          "errorTypes": {
+            "subs": 35,
+            "dels": 7090,
+            "ins": 0,
+            "trailingDels": 7036
+          },
+          "unfinishedClips": 162,
+          "werHeard": {
+            "value": 0.45255474452554745,
+            "errors": 62,
+            "refWords": 137
+          },
+          "clipsAtMaxDuration": 162
+        }
+      ],
+      "byContent": [
+        {
+          "content": "plain",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1836,
+          "refChars": 10044,
+          "wer": {
+            "no_intro": {
+              "value": 0.9199346405228758,
+              "errors": 1689
+            },
+            "full": {
+              "value": 1.1285403050108933,
+              "errors": 2072
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9217443249701314,
+              "errors": 9258
+            },
+            "full": {
+              "value": 0.9403624054161689,
+              "errors": 9445
+            }
+          },
+          "errorTypes": {
+            "subs": 5,
+            "dels": 1684,
+            "ins": 0,
+            "trailingDels": 1684
+          },
+          "unfinishedClips": 69,
+          "werHeard": {
+            "value": 0,
+            "errors": 0,
+            "refWords": 147
+          }
+        },
+        {
+          "content": "numbers",
+          "clips": 81,
+          "rejectedClips": 1,
+          "refWords": 1764,
+          "refChars": 9000,
+          "wer": {
+            "no_intro": {
+              "value": 1.0011337868480725,
+              "errors": 1766
+            },
+            "full": {
+              "value": 1.231859410430839,
+              "errors": 2173
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9946666666666667,
+              "errors": 8952
+            },
+            "full": {
+              "value": 1.0697777777777777,
+              "errors": 9628
+            }
+          },
+          "errorTypes": {
+            "subs": 35,
+            "dels": 1641,
+            "ins": 90,
+            "trailingDels": 1641
+          },
+          "unfinishedClips": 76,
+          "werHeard": {
+            "value": 0.1368421052631579,
+            "errors": 13,
+            "refWords": 95
+          }
+        },
+        {
+          "content": "names_rare_words",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1773,
+          "refChars": 11061,
+          "wer": {
+            "no_intro": {
+              "value": 0.9576988155668359,
+              "errors": 1698
+            },
+            "full": {
+              "value": 1.188945290468133,
+              "errors": 2108
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9394268149353585,
+              "errors": 10391
+            },
+            "full": {
+              "value": 0.9464786185697496,
+              "errors": 10469
+            }
+          },
+          "errorTypes": {
+            "subs": 60,
+            "dels": 1627,
+            "ins": 11,
+            "trailingDels": 1625
+          },
+          "unfinishedClips": 74,
+          "werHeard": {
+            "value": 0.22330097087378642,
+            "errors": 23,
+            "refWords": 103
+          }
+        },
+        {
+          "content": "acronyms_abbreviations",
+          "clips": 81,
+          "rejectedClips": 2,
+          "refWords": 1935,
+          "refChars": 9576,
+          "wer": {
+            "no_intro": {
+              "value": 0.9002583979328166,
+              "errors": 1742
+            },
+            "full": {
+              "value": 1.1416020671834626,
+              "errors": 2209
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.8944235588972431,
+              "errors": 8565
+            },
+            "full": {
+              "value": 1.0028195488721805,
+              "errors": 9603
+            }
+          },
+          "errorTypes": {
+            "subs": 40,
+            "dels": 1702,
+            "ins": 0,
+            "trailingDels": 1669
+          },
+          "unfinishedClips": 71,
+          "werHeard": {
+            "value": 0.21224489795918366,
+            "errors": 52,
+            "refWords": 245
+          }
+        },
+        {
+          "content": "prosody",
+          "clips": 81,
+          "rejectedClips": 1,
+          "refWords": 1890,
+          "refChars": 9486,
+          "wer": {
+            "no_intro": {
+              "value": 1.0592592592592593,
+              "errors": 2002
+            },
+            "full": {
+              "value": 1.408994708994709,
+              "errors": 2663
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 1.0411132194813408,
+              "errors": 9876
+            },
+            "full": {
+              "value": 1.2391946025722116,
+              "errors": 11755
+            }
+          },
+          "errorTypes": {
+            "subs": 74,
+            "dels": 1536,
+            "ins": 392,
+            "trailingDels": 1524
+          },
+          "unfinishedClips": 56,
+          "werHeard": {
+            "value": 0.4748427672955975,
+            "errors": 151,
+            "refWords": 318
+          }
+        },
+        {
+          "content": "phonetic",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1701,
+          "refChars": 10944,
+          "wer": {
+            "no_intro": {
+              "value": 0.9600235155790712,
+              "errors": 1633
+            },
+            "full": {
+              "value": 1.2022339800117579,
+              "errors": 2045
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.9562317251461988,
+              "errors": 10465
+            },
+            "full": {
+              "value": 0.9788011695906432,
+              "errors": 10712
+            }
+          },
+          "errorTypes": {
+            "subs": 25,
+            "dels": 1568,
+            "ins": 40,
+            "trailingDels": 1544
+          },
+          "unfinishedClips": 70,
+          "werHeard": {
+            "value": 0.2,
+            "errors": 27,
+            "refWords": 135
+          }
+        }
+      ]
+    },
+    {
+      "id": "xvector_4090",
+      "clips": 486,
+      "rejectedClips": 0,
+      "refWords": 10899,
+      "refChars": 60111,
+      "wer": {
+        "no_intro": {
+          "value": 0.20020185338104413,
+          "errors": 2182
+        },
+        "full": {
+          "value": 0.20020185338104413,
+          "errors": 2182
+        }
+      },
+      "cer": {
+        "no_intro": {
+          "value": 0.1798506097053784,
+          "errors": 10811
+        },
+        "full": {
+          "value": 0.1798506097053784,
+          "errors": 10811
+        }
+      },
+      "errorTypes": {
+        "subs": 256,
+        "dels": 1819,
+        "ins": 107,
+        "trailingDels": 1787
+      },
+      "unfinishedClips": 164,
+      "werHeard": {
+        "value": 0.023529411764705882,
+        "errors": 212,
+        "refWords": 9010
+      },
+      "introClips": 0,
+      "maxDurationS": 12.8,
+      "clipsAtMaxDuration": 162,
+      "werRange": {
+        "min": 0.1791907514450867,
+        "max": 0.23947151114781173,
+        "minNfe": [
+          12
+        ],
+        "maxNfe": [
+          20
+        ]
+      },
+      "byNfe": [
+        {
+          "nfe": 4,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.2180016515276631,
+              "errors": 264
+            },
+            "full": {
+              "value": 0.2180016515276631,
+              "errors": 264
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.20257523581374456,
+              "errors": 1353
+            },
+            "full": {
+              "value": 0.20257523581374456,
+              "errors": 1353
+            }
+          },
+          "errorTypes": {
+            "subs": 23,
+            "dels": 238,
+            "ins": 3,
+            "trailingDels": 237
+          },
+          "unfinishedClips": 18,
+          "werHeard": {
+            "value": 0.020682523267838676,
+            "errors": 20,
+            "refWords": 967
+          }
+        },
+        {
+          "nfe": 6,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.22213047068538397,
+              "errors": 269
+            },
+            "full": {
+              "value": 0.22213047068538397,
+              "errors": 269
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.19943105255277735,
+              "errors": 1332
+            },
+            "full": {
+              "value": 0.19943105255277735,
+              "errors": 1332
+            }
+          },
+          "errorTypes": {
+            "subs": 28,
+            "dels": 238,
+            "ins": 3,
+            "trailingDels": 236
+          },
+          "unfinishedClips": 19,
+          "werHeard": {
+            "value": 0.022821576763485476,
+            "errors": 22,
+            "refWords": 964
+          }
+        },
+        {
+          "nfe": 8,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.1907514450867052,
+              "errors": 231
+            },
+            "full": {
+              "value": 0.1907514450867052,
+              "errors": 231
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.17382841742775865,
+              "errors": 1161
+            },
+            "full": {
+              "value": 0.17382841742775865,
+              "errors": 1161
+            }
+          },
+          "errorTypes": {
+            "subs": 30,
+            "dels": 195,
+            "ins": 6,
+            "trailingDels": 185
+          },
+          "unfinishedClips": 18,
+          "werHeard": {
+            "value": 0.03152709359605911,
+            "errors": 32,
+            "refWords": 1015
+          }
+        },
+        {
+          "nfe": 10,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.18827415359207267,
+              "errors": 228
+            },
+            "full": {
+              "value": 0.18827415359207267,
+              "errors": 228
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.16978589609222938,
+              "errors": 1134
+            },
+            "full": {
+              "value": 0.16978589609222938,
+              "errors": 1134
+            }
+          },
+          "errorTypes": {
+            "subs": 27,
+            "dels": 197,
+            "ins": 4,
+            "trailingDels": 191
+          },
+          "unfinishedClips": 18,
+          "werHeard": {
+            "value": 0.022840119165839126,
+            "errors": 23,
+            "refWords": 1007
+          }
+        },
+        {
+          "nfe": 12,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.1791907514450867,
+              "errors": 217
+            },
+            "full": {
+              "value": 0.1791907514450867,
+              "errors": 217
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.16933672705494834,
+              "errors": 1131
+            },
+            "full": {
+              "value": 0.16933672705494834,
+              "errors": 1131
+            }
+          },
+          "errorTypes": {
+            "subs": 23,
+            "dels": 193,
+            "ins": 1,
+            "trailingDels": 192
+          },
+          "unfinishedClips": 19,
+          "werHeard": {
+            "value": 0.016798418972332016,
+            "errors": 17,
+            "refWords": 1012
+          }
+        },
+        {
+          "nfe": 16,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.1833195706028076,
+              "errors": 222
+            },
+            "full": {
+              "value": 0.1833195706028076,
+              "errors": 222
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.16739032789339722,
+              "errors": 1118
+            },
+            "full": {
+              "value": 0.16739032789339722,
+              "errors": 1118
+            }
+          },
+          "errorTypes": {
+            "subs": 26,
+            "dels": 191,
+            "ins": 5,
+            "trailingDels": 187
+          },
+          "unfinishedClips": 19,
+          "werHeard": {
+            "value": 0.025590551181102362,
+            "errors": 26,
+            "refWords": 1016
+          }
+        },
+        {
+          "nfe": 20,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.23947151114781173,
+              "errors": 290
+            },
+            "full": {
+              "value": 0.23947151114781173,
+              "errors": 290
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.19478963916754005,
+              "errors": 1301
+            },
+            "full": {
+              "value": 0.19478963916754005,
+              "errors": 1301
+            }
+          },
+          "errorTypes": {
+            "subs": 30,
+            "dels": 184,
+            "ins": 76,
+            "trailingDels": 178
+          },
+          "unfinishedClips": 17,
+          "werHeard": {
+            "value": 0.025465230166503428,
+            "errors": 26,
+            "refWords": 1021
+          }
+        },
+        {
+          "nfe": 24,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.18992568125516102,
+              "errors": 230
+            },
+            "full": {
+              "value": 0.18992568125516102,
+              "errors": 230
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.17233118730348854,
+              "errors": 1151
+            },
+            "full": {
+              "value": 0.17233118730348854,
+              "errors": 1151
+            }
+          },
+          "errorTypes": {
+            "subs": 29,
+            "dels": 197,
+            "ins": 4,
+            "trailingDels": 196
+          },
+          "unfinishedClips": 18,
+          "werHeard": {
+            "value": 0.022908366533864542,
+            "errors": 23,
+            "refWords": 1004
+          }
+        },
+        {
+          "nfe": 32,
+          "clips": 54,
+          "rejectedClips": 0,
+          "refWords": 1211,
+          "refChars": 6679,
+          "wer": {
+            "no_intro": {
+              "value": 0.1907514450867052,
+              "errors": 231
+            },
+            "full": {
+              "value": 0.1907514450867052,
+              "errors": 231
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.16918700404252132,
+              "errors": 1130
+            },
+            "full": {
+              "value": 0.16918700404252132,
+              "errors": 1130
+            }
+          },
+          "errorTypes": {
+            "subs": 40,
+            "dels": 186,
+            "ins": 5,
+            "trailingDels": 185
+          },
+          "unfinishedClips": 18,
+          "werHeard": {
+            "value": 0.022908366533864542,
+            "errors": 23,
+            "refWords": 1004
+          }
+        }
+      ],
+      "byLength": [
+        {
+          "length": "short",
+          "clips": 162,
+          "rejectedClips": 0,
+          "refWords": 882,
+          "refChars": 4716,
+          "wer": {
+            "no_intro": {
+              "value": 0.036281179138321996,
+              "errors": 32
+            },
+            "full": {
+              "value": 0.036281179138321996,
+              "errors": 32
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.018659881255301103,
+              "errors": 88
+            },
+            "full": {
+              "value": 0.018659881255301103,
+              "errors": 88
+            }
+          },
+          "errorTypes": {
+            "subs": 23,
+            "dels": 2,
+            "ins": 7,
+            "trailingDels": 0
+          },
+          "unfinishedClips": 3,
+          "werHeard": {
+            "value": 0.02502844141069397,
+            "errors": 22,
+            "refWords": 879
+          },
+          "clipsAtMaxDuration": 0
+        },
+        {
+          "length": "medium",
+          "clips": 162,
+          "rejectedClips": 0,
+          "refWords": 2817,
+          "refChars": 15723,
+          "wer": {
+            "no_intro": {
+              "value": 0.034788782392616256,
+              "errors": 98
+            },
+            "full": {
+              "value": 0.034788782392616256,
+              "errors": 98
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.01691789098772499,
+              "errors": 266
+            },
+            "full": {
+              "value": 0.01691789098772499,
+              "errors": 266
+            }
+          },
+          "errorTypes": {
+            "subs": 68,
+            "dels": 11,
+            "ins": 19,
+            "trailingDels": 6
+          },
+          "unfinishedClips": 4,
+          "werHeard": {
+            "value": 0.031683873264506945,
+            "errors": 89,
+            "refWords": 2809
+          },
+          "clipsAtMaxDuration": 0
+        },
+        {
+          "length": "long",
+          "clips": 162,
+          "rejectedClips": 0,
+          "refWords": 7200,
+          "refChars": 39672,
+          "wer": {
+            "no_intro": {
+              "value": 0.285,
+              "errors": 2052
+            },
+            "full": {
+              "value": 0.285,
+              "errors": 2052
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.2635864085501109,
+              "errors": 10457
+            },
+            "full": {
+              "value": 0.2635864085501109,
+              "errors": 10457
+            }
+          },
+          "errorTypes": {
+            "subs": 165,
+            "dels": 1806,
+            "ins": 81,
+            "trailingDels": 1781
+          },
+          "unfinishedClips": 157,
+          "werHeard": {
+            "value": 0.01897782788425404,
+            "errors": 101,
+            "refWords": 5322
+          },
+          "clipsAtMaxDuration": 162
+        }
+      ],
+      "byContent": [
+        {
+          "content": "plain",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1836,
+          "refChars": 10044,
+          "wer": {
+            "no_intro": {
+              "value": 0.11437908496732026,
+              "errors": 210
+            },
+            "full": {
+              "value": 0.11437908496732026,
+              "errors": 210
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.11409796893667862,
+              "errors": 1146
+            },
+            "full": {
+              "value": 0.11409796893667862,
+              "errors": 1146
+            }
+          },
+          "errorTypes": {
+            "subs": 9,
+            "dels": 201,
+            "ins": 0,
+            "trailingDels": 201
+          },
+          "unfinishedClips": 25,
+          "werHeard": {
+            "value": 0,
+            "errors": 0,
+            "refWords": 1626
+          }
+        },
+        {
+          "content": "numbers",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1764,
+          "refChars": 9000,
+          "wer": {
+            "no_intro": {
+              "value": 0.2562358276643991,
+              "errors": 452
+            },
+            "full": {
+              "value": 0.2562358276643991,
+              "errors": 452
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.23722222222222222,
+              "errors": 2135
+            },
+            "full": {
+              "value": 0.23722222222222222,
+              "errors": 2135
+            }
+          },
+          "errorTypes": {
+            "subs": 19,
+            "dels": 433,
+            "ins": 0,
+            "trailingDels": 431
+          },
+          "unfinishedClips": 31,
+          "werHeard": {
+            "value": 0.004552352048558422,
+            "errors": 6,
+            "refWords": 1318
+          }
+        },
+        {
+          "content": "names_rare_words",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1773,
+          "refChars": 11061,
+          "wer": {
+            "no_intro": {
+              "value": 0.2859560067681895,
+              "errors": 507
+            },
+            "full": {
+              "value": 0.2859560067681895,
+              "errors": 507
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.22818913298978394,
+              "errors": 2524
+            },
+            "full": {
+              "value": 0.22818913298978394,
+              "errors": 2524
+            }
+          },
+          "errorTypes": {
+            "subs": 127,
+            "dels": 356,
+            "ins": 24,
+            "trailingDels": 335
+          },
+          "unfinishedClips": 29,
+          "werHeard": {
+            "value": 0.10829817158931083,
+            "errors": 154,
+            "refWords": 1422
+          }
+        },
+        {
+          "content": "acronyms_abbreviations",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1935,
+          "refChars": 9576,
+          "wer": {
+            "no_intro": {
+              "value": 0.19896640826873385,
+              "errors": 385
+            },
+            "full": {
+              "value": 0.19896640826873385,
+              "errors": 385
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.20373851294903927,
+              "errors": 1951
+            },
+            "full": {
+              "value": 0.20373851294903927,
+              "errors": 1951
+            }
+          },
+          "errorTypes": {
+            "subs": 55,
+            "dels": 325,
+            "ins": 5,
+            "trailingDels": 319
+          },
+          "unfinishedClips": 28,
+          "werHeard": {
+            "value": 0.015228426395939087,
+            "errors": 24,
+            "refWords": 1576
+          }
+        },
+        {
+          "content": "prosody",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1890,
+          "refChars": 9486,
+          "wer": {
+            "no_intro": {
+              "value": 0.1873015873015873,
+              "errors": 354
+            },
+            "full": {
+              "value": 0.1873015873015873,
+              "errors": 354
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.15348935273033945,
+              "errors": 1456
+            },
+            "full": {
+              "value": 0.15348935273033945,
+              "errors": 1456
+            }
+          },
+          "errorTypes": {
+            "subs": 4,
+            "dels": 273,
+            "ins": 77,
+            "trailingDels": 273
+          },
+          "unfinishedClips": 24,
+          "werHeard": {
+            "value": 0,
+            "errors": 0,
+            "refWords": 1613
+          }
+        },
+        {
+          "content": "phonetic",
+          "clips": 81,
+          "rejectedClips": 0,
+          "refWords": 1701,
+          "refChars": 10944,
+          "wer": {
+            "no_intro": {
+              "value": 0.1610817166372722,
+              "errors": 274
+            },
+            "full": {
+              "value": 0.1610817166372722,
+              "errors": 274
+            }
+          },
+          "cer": {
+            "no_intro": {
+              "value": 0.14610745614035087,
+              "errors": 1599
+            },
+            "full": {
+              "value": 0.14610745614035087,
+              "errors": 1599
+            }
+          },
+          "errorTypes": {
+            "subs": 42,
+            "dels": 231,
+            "ins": 1,
+            "trailingDels": 228
+          },
+          "unfinishedClips": 27,
+          "werHeard": {
+            "value": 0.019243986254295534,
+            "errors": 28,
+            "refWords": 1455
+          }
+        }
+      ]
+    }
+  ],
+  "clipGrid": {
+    "run": "xvector_4090",
+    "nfe": [
+      4,
+      6,
+      8,
+      10,
+      12,
+      16,
+      20,
+      24,
+      32
+    ],
+    "prompts": [
+      {
+        "id": "p001",
+        "length": "short",
+        "content": "plain",
+        "text": "The kettle is already on the stove.",
+        "refWords": 7,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p002",
+        "length": "short",
+        "content": "plain",
+        "text": "Please close the window before you leave.",
+        "refWords": 7,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p003",
+        "length": "short",
+        "content": "plain",
+        "text": "We walked home along the river.",
+        "refWords": 6,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p004",
+        "length": "medium",
+        "content": "plain",
+        "text": "After the meeting ended, she packed her notes into a canvas bag and caught the last bus downtown.",
+        "refWords": 18,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p005",
+        "length": "medium",
+        "content": "plain",
+        "text": "The garden looks different every spring, because my neighbor keeps moving the tomato plants to a sunnier corner.",
+        "refWords": 18,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p006",
+        "length": "medium",
+        "content": "plain",
+        "text": "He promised to call back after lunch, but the afternoon passed quietly and the phone never rang.",
+        "refWords": 17,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p007",
+        "length": "long",
+        "content": "plain",
+        "text": "When the storm finally cleared, the whole street came outside at once. Children splashed through the puddles, someone carried a ladder over to the fallen branch, and an older man stood on his porch counting the shingles that had blown off his roof.",
+        "refWords": 43,
+        "errors": [
+          9,
+          9,
+          9,
+          9,
+          8,
+          9,
+          9,
+          8,
+          8
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p008",
+        "length": "long",
+        "content": "plain",
+        "text": "Our team spent most of the week testing a new scheduling system. The first version was slow and confusing, but after a few small changes it became the tool everyone reached for first, and nobody wanted to go back to the old spreadsheet.",
+        "refWords": 43,
+        "errors": [
+          8,
+          10,
+          1,
+          1,
+          0,
+          0,
+          3,
+          10,
+          1
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p009",
+        "length": "long",
+        "content": "plain",
+        "text": "The library on the corner has been open for almost a century. It survived two floods, a fire in the basement, and several attempts to turn it into apartments, and on most afternoons it is still full of students reading quietly near the tall windows.",
+        "refWords": 45,
+        "errors": [
+          6,
+          12,
+          12,
+          12,
+          12,
+          6,
+          6,
+          16,
+          16
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p010",
+        "length": "short",
+        "content": "numbers",
+        "text": "Your total comes to $42.75.",
+        "refWords": 5,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p011",
+        "length": "short",
+        "content": "numbers",
+        "text": "The train leaves at 6:15 a.m.",
+        "refWords": 6,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p012",
+        "length": "short",
+        "content": "numbers",
+        "text": "Call me back at 555-0147.",
+        "refWords": 5,
+        "errors": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p013",
+        "length": "medium",
+        "content": "numbers",
+        "text": "On March 3rd, 2024, the temperature dropped to minus 18 degrees, and the school closed for 2 days.",
+        "refWords": 17,
+        "errors": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p014",
+        "length": "medium",
+        "content": "numbers",
+        "text": "The recipe calls for 2 1/2 cups of flour, 3 eggs, and about 350 grams of sugar.",
+        "refWords": 16,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p015",
+        "length": "medium",
+        "content": "numbers",
+        "text": "Revenue grew by 12.5% last quarter, rising from $1.2 million to roughly $1.35 million in total.",
+        "refWords": 14,
+        "errors": [
+          0,
+          0,
+          1,
+          0,
+          2,
+          2,
+          1,
+          0,
+          2
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p016",
+        "length": "long",
+        "content": "numbers",
+        "text": "Flight 857 departs Toronto at 10:40 p.m. on Friday, October 23rd, and lands in London at 10:55 a.m. local time. Passengers must check in at least 3 hours before departure, and each person may bring 2 bags weighing up to 23 kilograms.",
+        "refWords": 42,
+        "errors": [
+          14,
+          12,
+          9,
+          10,
+          6,
+          6,
+          9,
+          10,
+          12
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p017",
+        "length": "long",
+        "content": "numbers",
+        "text": "The apartment costs $2,350 per month, plus $85 for parking and about $120 for utilities. The lease runs for 12 months starting November 1st, and the landlord asks for the first and last month's rent, which comes to $4,700 in total.",
+        "refWords": 42,
+        "errors": [
+          19,
+          24,
+          21,
+          20,
+          21,
+          21,
+          21,
+          20,
+          18
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p018",
+        "length": "long",
+        "content": "numbers",
+        "text": "In the final round, the runner finished the 400 metres in 47.82 seconds, beating the previous record of 48.1 set in 1996. She had trained 6 days a week for 3 years, and her coach said she still had room to improve by at least half a second.",
+        "refWords": 49,
+        "errors": [
+          27,
+          26,
+          16,
+          15,
+          16,
+          16,
+          17,
+          17,
+          18
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p019",
+        "length": "short",
+        "content": "names_rare_words",
+        "text": "Siobhan met Joaquín in Reykjavík.",
+        "refWords": 5,
+        "errors": [
+          1,
+          3,
+          1,
+          1,
+          1,
+          1,
+          1,
+          3,
+          1
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p020",
+        "length": "short",
+        "content": "names_rare_words",
+        "text": "Pass the quinoa and the gnocchi.",
+        "refWords": 6,
+        "errors": [
+          1,
+          1,
+          1,
+          3,
+          3,
+          1,
+          1,
+          1,
+          1
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p021",
+        "length": "short",
+        "content": "names_rare_words",
+        "text": "Professor Nguyen studies archaeopteryx fossils.",
+        "refWords": 5,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p022",
+        "length": "medium",
+        "content": "names_rare_words",
+        "text": "Our guide, Thandiwe Mokoena, led us from Chichén Itzá to a quiet cenote near Valladolid before sunset.",
+        "refWords": 17,
+        "errors": [
+          2,
+          2,
+          3,
+          0,
+          0,
+          4,
+          4,
+          3,
+          3
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p023",
+        "length": "medium",
+        "content": "names_rare_words",
+        "text": "The sommelier recommended a Gewürztraminer, but Aoife ordered the Sauvignon Blanc and a plate of bruschetta instead.",
+        "refWords": 17,
+        "errors": [
+          4,
+          3,
+          3,
+          5,
+          3,
+          4,
+          3,
+          4,
+          1
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p024",
+        "length": "medium",
+        "content": "names_rare_words",
+        "text": "Dr. Przybylski presented her research on chrysanthemum genetics at a conference in Wrocław last autumn.",
+        "refWords": 15,
+        "errors": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p025",
+        "length": "long",
+        "content": "names_rare_words",
+        "text": "Last summer, Ngozi and her cousin Xiomara drove from Saskatoon to Tsawwassen, stopping in Kamloops for a night. They ate pierogi in a tiny diner, photographed a pileated woodpecker near the highway, and argued for an hour about how to pronounce Saskatchewan correctly.",
+        "refWords": 43,
+        "errors": [
+          19,
+          16,
+          15,
+          15,
+          15,
+          15,
+          15,
+          14,
+          13
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p026",
+        "length": "long",
+        "content": "names_rare_words",
+        "text": "The museum's new exhibit features a quetzal feather headdress, a Byzantine reliquary, and a set of Edo-period netsuke carvings. The curator, Ingrid Søndergaard, spent four years negotiating the loans with collectors in Kyoto, Istanbul, and Oaxaca before the doors finally opened.",
+        "refWords": 43,
+        "errors": [
+          11,
+          11,
+          14,
+          13,
+          14,
+          12,
+          8,
+          9,
+          16
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p027",
+        "length": "long",
+        "content": "names_rare_words",
+        "text": "Before the concert, the conductor, Yevgeny Tsvetkov, explained that the program would open with a nocturne by Chopin, continue with a lesser-known étude by Szymanowski, and close with a piece by a young composer from Ouagadougou whose name most of the audience had never heard.",
+        "refWords": 46,
+        "errors": [
+          16,
+          23,
+          17,
+          23,
+          15,
+          23,
+          23,
+          16,
+          19
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p028",
+        "length": "short",
+        "content": "acronyms_abbreviations",
+        "text": "The CEO joined the call at noon.",
+        "refWords": 7,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p029",
+        "length": "short",
+        "content": "acronyms_abbreviations",
+        "text": "Send the PDF to HR by Friday.",
+        "refWords": 7,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p030",
+        "length": "short",
+        "content": "acronyms_abbreviations",
+        "text": "NASA delayed the launch again.",
+        "refWords": 5,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p031",
+        "length": "medium",
+        "content": "acronyms_abbreviations",
+        "text": "The FAQ says to restart the VPN, clear your DNS cache, and then contact IT if the error persists.",
+        "refWords": 19,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p032",
+        "length": "medium",
+        "content": "acronyms_abbreviations",
+        "text": "Our GPU cluster runs CUDA 12, and the ML team wants an API endpoint for the TTS model by Q4.",
+        "refWords": 21,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p033",
+        "length": "medium",
+        "content": "acronyms_abbreviations",
+        "text": "St. Clair Ave. is closed from Jan. to Mar., so take the TTC or drive via Hwy. 401 instead.",
+        "refWords": 19,
+        "errors": [
+          0,
+          1,
+          0,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p034",
+        "length": "long",
+        "content": "acronyms_abbreviations",
+        "text": "According to the WHO, the new guidelines were drafted with input from the CDC, the NIH, and several NGOs. The FAQ on their website explains the changes in plain language, and a PDF version is available for anyone who needs it for an HR or compliance review.",
+        "refWords": 47,
+        "errors": [
+          17,
+          17,
+          17,
+          12,
+          13,
+          17,
+          11,
+          13,
+          18
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p035",
+        "length": "long",
+        "content": "acronyms_abbreviations",
+        "text": "Our startup's MVP uses a REST API, a PostgreSQL database, and an LLM hosted on AWS. The CTO wants SSO and 2FA ready before the beta, while the UX lead is pushing for better SEO and faster page loads on iOS and Android.",
+        "refWords": 44,
+        "errors": [
+          18,
+          12,
+          12,
+          12,
+          12,
+          11,
+          14,
+          14,
+          15
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p036",
+        "length": "long",
+        "content": "acronyms_abbreviations",
+        "text": "Mr. Okafor, the VP of Ops, sent an email at 9 a.m. asking everyone to submit their KPIs by EOD. He also reminded the team that the Q3 OKR review has moved from Rm. 204 to the main conference room, and that attendance is mandatory.",
+        "refWords": 46,
+        "errors": [
+          13,
+          16,
+          16,
+          11,
+          10,
+          11,
+          14,
+          15,
+          16
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p037",
+        "length": "short",
+        "content": "prosody",
+        "text": "Wait, you're leaving already?",
+        "refWords": 5,
+        "errors": [
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p038",
+        "length": "short",
+        "content": "prosody",
+        "text": "Wow, that was incredible!",
+        "refWords": 4,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p039",
+        "length": "short",
+        "content": "prosody",
+        "text": "Is this seat taken?",
+        "refWords": 4,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p040",
+        "length": "medium",
+        "content": "prosody",
+        "text": "Did you really drive all night to get here, or did you take the early train like last time?",
+        "refWords": 19,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p041",
+        "length": "medium",
+        "content": "prosody",
+        "text": "Stop! Don't touch that wire, it might still be live, and the power company hasn't arrived yet!",
+        "refWords": 19,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p042",
+        "length": "medium",
+        "content": "prosody",
+        "text": "\"I told you it would work,\" she whispered, \"but honestly, I never expected it to work this well.\"",
+        "refWords": 18,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p043",
+        "length": "long",
+        "content": "prosody",
+        "text": "Can you believe it? After three months of waiting, the package finally arrived this morning, and it was the wrong color! I called the store, and the man on the phone just sighed and asked, \"Would you like to wait another three months?\" I said no.",
+        "refWords": 46,
+        "errors": [
+          11,
+          3,
+          5,
+          0,
+          3,
+          3,
+          72,
+          1,
+          0
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p044",
+        "length": "long",
+        "content": "prosody",
+        "text": "\"Where were you last night?\" her brother asked, leaning against the doorframe. \"Out,\" she said. \"Out where?\" \"Just out!\" He laughed and shook his head, because he already knew the answer, and she knew that he knew, and neither of them was going to say it.",
+        "refWords": 46,
+        "errors": [
+          16,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p045",
+        "length": "long",
+        "content": "prosody",
+        "text": "Honestly, what did they expect? You can't cancel the festival two days before it starts, refund only half the tickets, and then act surprised when people get angry. Some of us booked hotels! Some of us took time off work! Who exactly is going to pay for that?",
+        "refWords": 49,
+        "errors": [
+          15,
+          15,
+          12,
+          15,
+          15,
+          12,
+          12,
+          10,
+          9
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p046",
+        "length": "short",
+        "content": "phonetic",
+        "text": "Six slick seals slid south.",
+        "refWords": 5,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p047",
+        "length": "short",
+        "content": "phonetic",
+        "text": "Crisp crusts crackle and crumble.",
+        "refWords": 5,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p048",
+        "length": "short",
+        "content": "phonetic",
+        "text": "Thirty thin thistles thrived.",
+        "refWords": 4,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p049",
+        "length": "medium",
+        "content": "phonetic",
+        "text": "Priya's prickly purple pepper plants produced plenty of plump peppers, pleasing practically every passing pedestrian.",
+        "refWords": 16,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p050",
+        "length": "medium",
+        "content": "phonetic",
+        "text": "Grey geese grazed gently in the glistening green grass while gruff goats gnawed on gnarled garden gates.",
+        "refWords": 17,
+        "errors": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p051",
+        "length": "medium",
+        "content": "phonetic",
+        "text": "She thoroughly thought through three thousand theories, though the throbbing thunder threatened to throw off her thinking.",
+        "refWords": 16,
+        "errors": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "atCap": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "p052",
+        "length": "long",
+        "content": "phonetic",
+        "text": "Wendy's wobbly wheelbarrow went wandering down the winding walkway, while Walter whistled warily and waved at the weary workers weaving willow baskets. When the wheelbarrow wedged itself between two wooden posts, everyone watched in wonder as Walter wrestled it free without wasting a single word.",
+        "refWords": 46,
+        "errors": [
+          16,
+          13,
+          12,
+          18,
+          16,
+          14,
+          13,
+          14,
+          12
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p053",
+        "length": "long",
+        "content": "phonetic",
+        "text": "Silent sheets of sleet slipped silently across the slick slate roofs, and the shivering shepherd shuffled his sheep toward the shelter. Somewhere in the shadows a sly fox sniffed the cold air, sensed the shepherd's sharp stick, and slunk back into the shrubs.",
+        "refWords": 44,
+        "errors": [
+          11,
+          12,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          7
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "p054",
+        "length": "long",
+        "content": "phonetic",
+        "text": "Clever Clara clutched a crumpled clipboard while crowds crossed the crowded crossing. Her cranky colleague Craig kept clicking his creaky pen, complaining that the crisp, clear criteria were confusing, contradictory, and completely impossible to calculate correctly.",
+        "refWords": 36,
+        "errors": [
+          7,
+          7,
+          7,
+          6,
+          7,
+          6,
+          7,
+          7,
+          7
+        ],
+        "atCap": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    ]
+  }
+}

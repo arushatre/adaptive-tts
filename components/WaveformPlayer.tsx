@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { formatTime } from "@/lib/speech";
+import { useAudioPlayback } from "@/lib/useAudioPlayback";
 import { useMockPlayback } from "@/lib/useMockPlayback";
 
 type Controlled = {
@@ -16,6 +17,8 @@ type WaveformPlayerProps = {
   bars: number[];
   /** Seconds. */
   duration: number;
+  /** Real audio file. Without it, playback is simulated over `duration`. */
+  src?: string;
   /** Accessible name, e.g. "Adaptive schedule". */
   label: string;
   /** Mono metadata, e.g. ["Sample 01", "Full steps"]. */
@@ -41,6 +44,7 @@ const CEILING_GAP = 2; // keeps full-height bars just under the ceiling line
 export function WaveformPlayer(props: WaveformPlayerProps) {
   const {
     bars,
+    src,
     duration,
     label,
     meta,
@@ -50,7 +54,9 @@ export function WaveformPlayer(props: WaveformPlayerProps) {
     className = "",
   } = props;
   const [hover, setHover] = useState<number | null>(null);
-  const internal = useMockPlayback(duration);
+  const mock = useMockPlayback(duration);
+  const audio = useAudioPlayback(src, duration);
+  const internal = src ? audio : mock;
   const progress = props.progress ?? internal.progress;
   const playing = props.playing ?? internal.playing;
   const onToggle = props.onToggle ?? internal.toggle;

@@ -1,41 +1,25 @@
 "use client";
 
-import { DEMO_DURATION, DEMO_SENTENCE, LEADERBOARD, STEP_BUDGET } from "@/lib/content";
-import { adaptiveSchedule, buildTimeline, describeFrame, fixedSchedule } from "@/lib/speech";
+import { DEMO, displayPeaks, pct1, secs } from "@/lib/metrics";
 import { Disclosure, PlusMinus } from "./Disclosure";
+import { TranscriptDiff } from "./TranscriptDiff";
 import { WaveformPlayer } from "./WaveformPlayer";
 
-const FRAMES = 120;
-const MAX = STEP_BUDGET.fixed;
-const TIMELINE = buildTimeline(DEMO_SENTENCE);
+const sampleKhz = DEMO.clips[0].sampleRate / 1000;
 
-const SAMPLES = [
-  { method: "Full steps", schedule: fixedSchedule(FRAMES, MAX, MAX) },
-  { method: "Uniform reduction", schedule: fixedSchedule(FRAMES, 8, MAX) },
-  { method: "Step distillation", schedule: fixedSchedule(FRAMES, 8, MAX) },
-  {
-    method: "Adaptive TTS",
-    schedule: adaptiveSchedule(TIMELINE, FRAMES, STEP_BUDGET.adaptiveMean, MAX),
-  },
-].map((s) => ({ ...s, row: LEADERBOARD.find((r) => r.method === s.method)! }));
-
-const stepsLabel = (mean: number) =>
-  `${Number.isInteger(mean) ? mean : mean.toFixed(1)} steps/frame`;
-
+/** Every clip of the demo prompt, one row per step count, with real audio. */
 export function SampleList() {
   return (
     <ul className="border-t border-ink">
-      {SAMPLES.map((s, i) => (
-        <li key={s.method} className="border-b border-rule">
+      {DEMO.clips.map((c, i) => (
+        <li key={c.nfe} className="border-b border-rule">
           <div className="pt-8 pb-6">
             <WaveformPlayer
-              align="bottom"
-              ceiling
-              bars={s.schedule.bars}
-              duration={DEMO_DURATION}
-              label={`${s.method} sample`}
-              meta={[`${String(i + 1).padStart(2, "0")} · ${s.method}`, stepsLabel(s.schedule.mean)]}
-              describe={(f) => describeFrame(TIMELINE, s.schedule.steps, f)}
+              src={c.src}
+              bars={displayPeaks(c.peaks)}
+              duration={c.durationS}
+              label={`clip at ${c.nfe} generation steps`}
+              meta={[`${String(i + 1).padStart(2, "0")} · NFE ${c.nfe}`, `WER ${pct1(c.wer)}`, `CER ${pct1(c.cer)}`]}
             />
           </div>
           <Disclosure
@@ -43,33 +27,32 @@ export function SampleList() {
             header={(open) => (
               <span className="meta flex items-center justify-between gap-4 py-3 text-muted transition-colors group-hover:text-ink">
                 <span>
-                  MOS {s.row.mos} · WER {s.row.wer} · {s.row.latency}
+                  {c.errors.subs + c.errors.dels + c.errors.ins} of {c.refWords} words wrong
                 </span>
                 <span className="flex items-center gap-2">
-                  {open ? "Hide" : "Details"}
+                  {open ? "Hide" : "Transcript"}
                   <PlusMinus open={open} />
                 </span>
               </span>
             )}
           >
-            <div className="grid gap-6 pt-2 pb-8 md:grid-cols-12">
-              <p className="text-[0.9375rem] leading-relaxed md:col-span-7">
-                {s.row.detail.summary}
-              </p>
-              <dl className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-2 font-mono text-[0.8125rem] tabular-nums md:col-span-4 md:col-start-9">
-                <dt className="font-sans text-muted">MOS, 95% CI</dt>
-                <dd className="text-right">
-                  {s.row.mos} {s.row.detail.mosCi}
-                </dd>
-                <dt className="font-sans text-muted">Latency p50 / p95</dt>
-                <dd className="text-right">
-                  {s.row.latency} / {s.row.detail.latencyP95}
-                </dd>
-                <dt className="font-sans text-muted">Speedup</dt>
-                <dd className="text-right">{s.row.speedup}</dd>
-                <dt className="font-sans text-muted">Steps spent</dt>
-                <dd className="text-right">{s.schedule.total.toLocaleString("en-US")}</dd>
+            <div className="grid gap-8 pt-2 pb-8 md:grid-cols-12">
+              <TranscriptDiff ops={c.alignment} className="md:col-span-8" />
+              <dl className="grid grid-cols-[1fr_auto] content-start gap-x-6 gap-y-2 font-mono text-[0.8125rem] tabular-nums md:col-span-3 md:col-start-10">
+                <dt className="font-sans text-muted">Substituted</dt>
+                <dd className="text-right">{c.errors.subs}</dd>
+                <dt className="font-sans text-muted">Missing</dt>
+                <dd className="text-right">{c.errors.dels}</dd>
+                <dt className="font-sans text-muted">Added</dt>
+                <dd className="text-right">{c.errors.ins}</dd>
+                <dt className="font-sans text-muted">Length</dt>
+                <dd className="text-right">{secs(c.durationS)}</dd>
+                <dt className="font-sans text-muted">Audio</dt>
+                <dd className="text-right">{sampleKhz} kHz WAV</dd>
               </dl>
+              <p className="text-[0.875rem] leading-relaxed text-muted md:col-span-8">
+                Raw transcript: “{c.transcript}”
+              </p>
             </div>
           </Disclosure>
         </li>

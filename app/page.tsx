@@ -1,17 +1,18 @@
+import Link from "next/link";
 import { ArrowLink } from "@/components/ArrowLink";
 import { Container } from "@/components/Container";
 import { Findings } from "@/components/Findings";
 import { AdaptiveDemo } from "@/components/home/AdaptiveDemo";
-import { ArchitectureBreakdown } from "@/components/home/ArchitectureBreakdown";
 import { FeedbackBox } from "@/components/home/FeedbackBox";
 import { Hero } from "@/components/home/Hero";
 import { MetricsStrip } from "@/components/home/MetricsStrip";
-import { Leaderboard } from "@/components/Leaderboard";
 import { ResearchIndex } from "@/components/ResearchIndex";
+import { Results } from "@/components/results/Results";
 import { Section } from "@/components/Section";
 import { SectionHeader } from "@/components/SectionHeader";
+import { METRICS } from "@/lib/metrics";
 
-// Light and dark bands alternate: demo and architecture are the dark ones.
+// Light and dark bands alternate: the demo is the dark one.
 export default function Home() {
   return (
     <>
@@ -19,31 +20,36 @@ export default function Home() {
       <MetricsStrip />
       <AdaptiveDemo index={1} />
 
-      <Section aria-labelledby="benchmarks-title">
+      <Section id="results" aria-labelledby="results-title">
         <Container>
           <SectionHeader
-            id="benchmarks-title"
-            index={2}
-            label="Benchmark · Sep 2026"
-            title="Fewer steps, measured against the alternatives."
-            aside="Same base model, same test set. Each method cuts refinement steps differently; quality is checked against the full-step model. Open any row for its breakdown."
+            id="results-title"
+            reveal={false}
+            title="Word error rate across generation steps."
+            aside={`${METRICS.promptCount} prompts at every step count, scored with Whisper. Lower is better.`}
           />
           <div className="mt-12 lg:mt-16">
-            <Leaderboard captionId="benchmarks-title" />
+            <Results captionId="results-title" />
+          </div>
+          <div className="mt-8 flex justify-end">
+            <Link
+              href="/benchmarks#method"
+              className="border-b border-current/25 pb-0.5 transition-colors duration-200 hover:border-current"
+            >
+              How these are measured
+            </Link>
           </div>
         </Container>
       </Section>
-
-      <ArchitectureBreakdown index={3} />
 
       <Section aria-labelledby="analysis-title">
         <Container>
           <SectionHeader
             id="analysis-title"
-            index={4}
+            index={2}
             label="Analysis · 5 findings"
-            title="What the numbers don’t show on their own."
-            aside="Where the predictor spends steps, what listeners actually hear, what happens under batching, and where adaptive inference still loses."
+            title="What the numbers show, and what they don’t."
+            aside="What changes with the step count, and what doesn’t."
           />
           <div className="mt-12 lg:mt-16">
             <Findings />
@@ -58,7 +64,7 @@ export default function Home() {
         <Container>
           <SectionHeader
             id="research-title"
-            index={5}
+            index={3}
             label="Research · Writing"
             title="Notes from the lab."
           />
@@ -68,7 +74,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <FeedbackBox index={6} />
+      <FeedbackBox index={4} />
     </>
   );
 }

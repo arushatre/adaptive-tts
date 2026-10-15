@@ -6,9 +6,18 @@ import { ArrowLink, PrimaryLink } from "../ArrowLink";
 import { Container } from "../Container";
 import { Kicker } from "../Kicker";
 import { MetaLabel } from "../MetaLabel";
-import { StepMask } from "./StepMask";
+import {
+  CLEAN_FIRST,
+  CLEAN_LAST,
+  METRICS,
+  NFE_MAX,
+  NFE_MIN,
+  pct1,
+  werOf,
+} from "@/lib/metrics";
+import { StepTable } from "./StepTable";
 
-const HEADLINE = "Some syllables are harder than others.";
+const HEADLINE = "Fewer steps, same result. We proved it.";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
@@ -29,13 +38,13 @@ export function Hero() {
       />
       <Container>
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-          <Kicker index={0}>Adaptive inference for speech</Kicker>
+          <Kicker index={0}>Adaptive compute for dots.tts</Kicker>
           <MetaLabel className="flex items-center gap-2">
             <span
               aria-hidden="true"
               className="size-1.5 animate-pulse-dot rounded-full bg-accent-strong"
             />
-            Research preview · Placeholder data
+            WAT.ai · Research preview
           </MetaLabel>
         </div>
 
@@ -69,14 +78,14 @@ export function Hero() {
             transition={{ duration: 0.8 * speed, delay: after, ease }}
           >
             <p className="max-w-measure text-body md:text-xl md:leading-[1.5]">
-              Text-to-speech models that refine audio iteratively spend the same
-              number of steps on every frame: a pause costs as much as a plosive.
-              Adaptive TTS predicts how many steps each frame actually needs, then
-              turns the saved compute into real wall-clock speedup on the GPU.
+              We ran dots.tts on {METRICS.promptCount} prompts at{" "}
+              {METRICS.nfe.length} step counts. On prompts that fit the length limit,
+              word error rate was {pct1(werOf(CLEAN_FIRST))} at {NFE_MIN} steps and{" "}
+              {pct1(werOf(CLEAN_LAST))} at {NFE_MAX}.
             </p>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-              <PrimaryLink href="#demo">Hear the difference</PrimaryLink>
-              <ArrowLink href="#architecture">See the architecture</ArrowLink>
+              <PrimaryLink href="#demo">Hear the clips</PrimaryLink>
+              <ArrowLink href="#results">See the results</ArrowLink>
             </div>
           </motion.div>
 
@@ -86,7 +95,7 @@ export function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 * speed, delay: after * 0.6, ease }}
           >
-            <StepMask />
+            <StepTable />
           </motion.div>
         </div>
       </Container>

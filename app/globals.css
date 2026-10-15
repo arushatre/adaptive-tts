@@ -227,3 +227,49 @@
     transform: scaleX(1);
   }
 }
+
+/* Range slider on the dark band. The thumb is a fixed 18px so tick labels
+   laid out with `justify-between` and 18px-wide boxes sit exactly under each
+   stop in every browser. */
+@utility range-night {
+  appearance: none;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+  &::-webkit-slider-runnable-track {
+    height: 2px;
+    background: var(--color-night-rule);
+  }
+  &::-moz-range-track {
+    height: 2px;
+    background: var(--color-night-rule);
+  }
+  &::-webkit-slider-thumb {
+    appearance: none;
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    margin-top: -8px;
+    border-radius: 9999px;
+    background: var(--color-night-accent);
+    border: 3px solid var(--color-night);
+    box-shadow: 0 0 0 1px var(--color-night-accent);
+    transition: transform 200ms var(--ease-out-soft);
+  }
+  &::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    background: var(--color-night-accent);
+    border: 3px solid var(--color-night);
+    box-shadow: 0 0 0 1px var(--color-night-accent);
+  }
+  &:active::-webkit-slider-thumb {
+    transform: scale(1.15);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--color-night-ink);
+    outline-offset: 6px;
+  }
+}

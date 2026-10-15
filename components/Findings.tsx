@@ -2,18 +2,35 @@
 
 import { motion } from "motion/react";
 import {
-  BATCH_SPEEDUP,
-  FAILURE_CASES,
-  FINDINGS,
-  PREDICTOR_STATS,
-  PREFERENCE,
-  SEGMENT_CLASSES,
-  STEP_BUDGET,
-  type Finding,
-} from "@/lib/content";
+  CLEAN_SET_LABEL,
+  CONTENT_LABEL,
+  LENGTH_LABEL,
+  MAIN_RUN,
+  METRICS,
+  ORIG_RUN,
+  RUN_LABEL,
+  cerOf,
+  errorsOf,
+  fmtInt,
+  joinAnd,
+  pct1,
+  secs,
+  werOf,
+} from "@/lib/metrics";
 import { Disclosure, PlusMinus } from "./Disclosure";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+const clean = METRICS.cleanSet;
+const range = clean.werRange;
+const long = MAIN_RUN.byLength.find((g) => g.length === "long")!;
+const shortMedium = MAIN_RUN.byLength.filter((g) => g.length !== "long");
+const contentRanked = [...clean.byContent].sort((a, b) => werOf(b) - werOf(a));
+const hardest = contentRanked[0];
+const nextHardest = contentRanked[1];
+const mainErrors = errorsOf(MAIN_RUN);
+const trailingShare = MAIN_RUN.errorTypes.trailingDels / mainErrors;
+const origFullWer = ORIG_RUN.byNfe.map((g) => g.wer.full.value);
+const origWer = ORIG_RUN.byNfe.map(werOf);
 
 /** Horizontal bar that grows from the left when its panel opens. */
 function Bar({
@@ -38,12 +55,65 @@ function Bar({
   );
 }
 
+type FindingId = "steps" | "length" | "errors" | "content" | "orig";
+type Finding = {
+  id: FindingId;
+  label: string;
+  title: string;
+  takeaway: string;
+  stat: string;
+  statLabel: string;
+};
+
+const FINDINGS: Finding[] = [
+  {
+    id: "steps",
+    label: "Generation steps",
+    title: "How much the step count matters",
+    takeaway: `Lowest at ${joinAnd(range.minNfe)} steps, highest at ${joinAnd(range.maxNfe)}. More steps don’t steadily help.`,
+    stat: `${pct1(range.min)}–${pct1(range.max)}`,
+    statLabel: "WER range, clean set",
+  },
+  {
+    id: "length",
+    label: "Length limit",
+    title: "What the length limit does",
+    takeaway: `Long prompts get cut off, so they score ${pct1(werOf(long))} against ${joinAnd(shortMedium.map((g) => pct1(werOf(g))))} for short and medium.`,
+    stat: `${long.clipsAtMaxDuration}/${long.clips}`,
+    statLabel: `Long clips cut at ${secs(MAIN_RUN.maxDurationS)}`,
+  },
+  {
+    id: "errors",
+    label: "Error types",
+    title: "Where the word errors come from",
+    takeaway: `Most errors are missing endings (${fmtInt(MAIN_RUN.errorTypes.trailingDels)} of ${fmtInt(mainErrors)}), not misheard words.`,
+    stat: pct1(trailingShare),
+    statLabel: "Of errors are cut-off endings",
+  },
+  {
+    id: "content",
+    label: "Prompt type",
+    title: "Which prompt types are hardest",
+    takeaway: `${CONTENT_LABEL[hardest.content]} are hardest; ${CONTENT_LABEL[nextHardest.content].toLowerCase()} come next at ${pct1(werOf(nextHardest))}.`,
+    stat: pct1(werOf(hardest)),
+    statLabel: `${CONTENT_LABEL[hardest.content]}, clean set`,
+  },
+  {
+    id: "orig",
+    label: "Setup issue",
+    title: "Why the original setup doesn’t count",
+    takeaway: `A setup bug cut most clips short, so its ${pct1(Math.min(...origWer))}–${pct1(Math.max(...origWer))} error rate says nothing about the model.`,
+    stat: `${ORIG_RUN.clipsAtMaxDuration}/${ORIG_RUN.clips}`,
+    statLabel: `Clips cut at ${secs(ORIG_RUN.maxDurationS)}`,
+  },
+];
+
 /** Expandable list of analysis findings, each with its supporting data. */
 export function Findings({
-  defaultOpen = "segments",
+  defaultOpen = "steps",
   headingLevel = "h3",
 }: {
-  defaultOpen?: Finding["id"] | null;
+  defaultOpen?: FindingId | null;
   headingLevel?: "h2" | "h3";
 }) {
   return (
@@ -63,7 +133,7 @@ export function Findings({
                 {f.title}
               </span>
               <span className="flex flex-col items-end gap-1 text-right lg:col-span-3 lg:col-start-9 lg:row-span-2 lg:row-start-1">
-                <span className="font-mono text-3xl tracking-[-0.03em] tabular-nums md:text-4xl">
+                <span className="font-mono text-3xl tracking-[-0.03em] whitespace-nowrap tabular-nums md:text-4xl">
                   {f.stat}
                 </span>
                 <span className="meta text-[0.6875rem] text-muted">{f.statLabel}</span>
@@ -91,20 +161,18 @@ export function Findings({
   );
 }
 
-function FindingDetail({ id }: { id: Finding["id"] }) {
+function FindingDetail({ id }: { id: FindingId }) {
   switch (id) {
-    case "segments":
-      return <Segments />;
-    case "preference":
-      return <Preference />;
-    case "batching":
-      return <Batching />;
-    case "predictor":
-      return <Predictor />;
-    case "failures":
-      return <Failures />;
-    default:
-      return null;
+    case "steps":
+      return <Steps />;
+    case "length":
+      return <Length />;
+    case "errors":
+      return <ErrorTypes />;
+    case "content":
+      return <Content />;
+    case "orig":
+      return <Orig />;
   }
 }
 
@@ -115,186 +183,240 @@ function Note({ children }: { children: React.ReactNode }) {
 const th = "meta border-b border-ink py-2 pr-4 font-normal text-muted last:pr-0";
 const td = "border-b border-rule py-3 pr-4 last:pr-0";
 
-function Segments() {
-  const mean = SEGMENT_CLASSES.reduce((s, c) => s + c.frames * c.steps, 0);
+function Steps() {
+  const top = range.max;
   return (
     <>
       <div className="relative overflow-x-auto">
-        <table className="w-full min-w-[34rem] border-collapse text-left">
-          <caption className="sr-only">Steps per frame by acoustic segment class</caption>
+        <table className="w-full min-w-[32rem] border-collapse text-left">
+          <caption className="sr-only">Clean set word error rate by generation steps. Lower is better.</caption>
           <thead>
             <tr>
-              <th scope="col" className={th}>Segment</th>
-              <th scope="col" className={`${th} text-right`}>Frames</th>
-              <th scope="col" className={`${th} w-[38%]`}>Steps / frame</th>
-              <th scope="col" className={`${th} text-right`}>Share of steps</th>
+              <th scope="col" className={th}>Steps (NFE)</th>
+              <th scope="col" className={`${th} w-[42%]`}>Word error rate</th>
+              <th scope="col" className={`${th} text-right`}>Word errors</th>
+              <th scope="col" className={`${th} text-right`}>Char. error rate</th>
             </tr>
           </thead>
           <tbody className="font-mono text-[0.875rem] tabular-nums">
-            {SEGMENT_CLASSES.map((c, i) => (
-              <tr key={c.name}>
-                <th scope="row" className={`${td} font-sans text-[0.9375rem] font-normal`}>
-                  {c.name}
-                </th>
-                <td className={`${td} text-right`}>{Math.round(c.frames * 100)}%</td>
+            {clean.byNfe.map((g, i) => (
+              <tr key={g.nfe}>
+                <th scope="row" className={`${td} font-normal`}>{g.nfe}</th>
                 <td className={td}>
                   <span className="flex items-center gap-3">
                     <span className="flex-1">
-                      <Bar value={c.steps / STEP_BUDGET.fixed} delay={i * 0.05} />
+                      <Bar
+                        value={werOf(g) / top}
+                        delay={i * 0.04}
+                        className={werOf(g) === range.min ? "bg-accent-strong" : "bg-ink"}
+                      />
                     </span>
-                    <span className="w-10 text-right">{c.steps.toFixed(1)}</span>
+                    <span className="w-12 text-right">{pct1(werOf(g))}</span>
                   </span>
                 </td>
                 <td className={`${td} text-right`}>
-                  {((c.frames * c.steps * 100) / mean).toFixed(1)}%
+                  {errorsOf(g)}
+                  <span className="text-muted">/{fmtInt(g.refWords)}</span>
                 </td>
+                <td className={`${td} text-right`}>{pct1(cerOf(g))}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <Note>
-        Bars are out of the {STEP_BUDGET.fixed}-step budget. Weighted across all frames the
-        mean is {mean.toFixed(1)} steps. Silence is a quarter of the audio but under a tenth of
-        the compute; plosive bursts are a tenth of the audio and a fifth of the compute.
+        {CLEAN_SET_LABEL}: {clean.byNfe[0].clips} clips per step count, the same {fmtInt(clean.byNfe[0].refWords)}{" "}
+        reference words each time, so the whole spread from lowest to highest is{" "}
+        {Math.max(...clean.byNfe.map(errorsOf)) - Math.min(...clean.byNfe.map(errorsOf))} word errors. Bars are
+        relative to the highest value.
       </Note>
     </>
   );
 }
 
-const PREF_KEYS = [
-  { key: "ours", label: "Prefer adaptive", swatch: "bg-ink" },
-  { key: "tie", label: "No preference", swatch: "bg-muted/50" },
-  { key: "theirs", label: "Prefer other", swatch: "bg-accent" },
+function Length() {
+  return (
+    <>
+      <div className="relative overflow-x-auto">
+        <table className="w-full min-w-[34rem] border-collapse text-left">
+          <caption className="sr-only">
+            {RUN_LABEL[MAIN_RUN.id].short} by prompt length. Lower error rates are better.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" className={th}>Prompt length</th>
+              <th scope="col" className={`${th} text-right`}>At the limit</th>
+              <th scope="col" className={`${th} text-right`}>Unfinished</th>
+              <th scope="col" className={`${th} text-right`}>Word error rate</th>
+              <th scope="col" className={`${th} text-right`}>Char. error rate</th>
+            </tr>
+          </thead>
+          <tbody className="font-mono text-[0.875rem] tabular-nums">
+            {MAIN_RUN.byLength.map((g) => (
+              <tr key={g.length}>
+                <th scope="row" className={`${td} font-sans text-[0.9375rem] font-normal`}>
+                  {LENGTH_LABEL[g.length]}
+                </th>
+                <td className={`${td} text-right`}>
+                  {g.clipsAtMaxDuration}
+                  <span className="text-muted">/{g.clips}</span>
+                </td>
+                <td className={`${td} text-right`}>
+                  {g.unfinishedClips}
+                  <span className="text-muted">/{g.clips}</span>
+                </td>
+                <td className={`${td} text-right`}>{pct1(werOf(g))}</td>
+                <td className={`${td} text-right`}>{pct1(cerOf(g))}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Note>
+        {RUN_LABEL[MAIN_RUN.id].short}, all step counts. “At the limit” means the clip is exactly{" "}
+        {secs(MAIN_RUN.maxDurationS)} long; “unfinished” means the last words of the prompt are missing from the
+        transcript. Counting only the part before the cut, this run’s word error rate is{" "}
+        {pct1(MAIN_RUN.werHeard.value)}. This is why the clean set leaves long prompts out.
+      </Note>
+    </>
+  );
+}
+
+const ERROR_ROWS = [
+  { key: "subs", label: "Substituted", note: "Heard as a different word" },
+  { key: "dels", label: "Missing", note: "Not in the transcript" },
+  { key: "ins", label: "Added", note: "Extra words in the transcript" },
 ] as const;
 
-function Preference() {
+function ErrorTypes() {
+  const sets = [
+    { name: `${RUN_LABEL[MAIN_RUN.id].short}, all prompts`, g: MAIN_RUN },
+    { name: "Clean set", g: clean },
+  ];
   return (
     <>
-      <ul className="flex flex-col gap-6">
-        {PREFERENCE.map((p, i) => (
-          <li key={p.versus} className="flex flex-col gap-2">
-            <span className="flex items-baseline justify-between gap-4">
-              <span className="text-[0.9375rem]">Adaptive vs. {p.versus}</span>
-              <span className="font-mono text-[0.8125rem] text-muted tabular-nums">
-                {p.ours} / {p.tie} / {p.theirs}
-              </span>
-            </span>
-            <motion.span
-              aria-hidden="true"
-              className="flex h-3 origin-left overflow-hidden rounded-[2px]"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, ease, delay: i * 0.08 }}
-            >
-              {PREF_KEYS.map((k) => (
-                <span key={k.key} className={k.swatch} style={{ width: `${p[k.key]}%` }} />
-              ))}
-            </motion.span>
-            <span className="sr-only">
-              {p.ours}% prefer adaptive, {p.tie}% no preference, {p.theirs}% prefer {p.versus}.
-            </span>
-          </li>
-        ))}
-      </ul>
-      <ul className="meta mt-6 flex flex-wrap gap-x-6 gap-y-2 text-muted" aria-hidden="true">
-        {PREF_KEYS.map((k) => (
-          <li key={k.key} className="flex items-center gap-2">
-            <span className={`inline-block size-2 rounded-[1px] ${k.swatch}`} />
-            {k.label}
-          </li>
-        ))}
-      </ul>
+      <div className="grid gap-10 md:grid-cols-2">
+        {sets.map(({ name, g }) => {
+          const total = errorsOf(g);
+          return (
+            <div key={name} className="flex flex-col gap-4">
+              <p className="meta text-muted">
+                {name} · {fmtInt(total)} errors
+              </p>
+              <ul className="flex flex-col gap-4">
+                {ERROR_ROWS.map((r, i) => {
+                  const n = g.errorTypes[r.key];
+                  return (
+                    <li key={r.key} className="flex flex-col gap-1.5">
+                      <span className="flex items-baseline justify-between gap-4 text-[0.9375rem]">
+                        <span>
+                          {r.label} <span className="text-[0.8125rem] text-muted">· {r.note}</span>
+                        </span>
+                        <span className="font-mono text-[0.875rem] tabular-nums">
+                          {fmtInt(n)} <span className="text-muted">({pct1(n / total)})</span>
+                        </span>
+                      </span>
+                      <Bar value={n / total} delay={i * 0.06} />
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="text-[0.8125rem] leading-snug text-muted">
+                Of the missing words, {fmtInt(g.errorTypes.trailingDels)} are at the very end of the clip.
+              </p>
+            </div>
+          );
+        })}
+      </div>
       <Note>
-        Blind A/B, order randomised, 40 listeners × 120 pairs per comparison. Against full
-        steps the split is close to even, which is the result we want: the cut in compute
-        is not audible to most listeners.
+        Counts from the word alignment of each transcript against its prompt, after normalization. Percentages
+        are shares of all word errors in that set.
       </Note>
     </>
   );
 }
 
-function Batching() {
-  const top = 3.5;
+function Content() {
+  const top = werOf(hardest);
   return (
     <>
-      <ul className="flex flex-col gap-4">
-        {BATCH_SPEEDUP.map((b, i) => (
-          <li key={b.batch} className="grid grid-cols-[5.5rem_1fr_3.5rem] items-center gap-4">
-            <span className="meta text-muted">Batch {b.batch}</span>
-            <span className="relative block">
-              <Bar value={b.speedup / top} delay={i * 0.06} />
-              {/* 1.0× reference: no speedup. */}
-              <span
-                aria-hidden="true"
-                className="absolute -top-1 -bottom-1 w-px border-l border-dashed border-muted"
-                style={{ left: `${(1 / top) * 100}%` }}
-              />
-            </span>
-            <span className="text-right font-mono text-[0.9375rem] tabular-nums">
-              {b.speedup.toFixed(1)}×
-            </span>
-          </li>
-        ))}
-      </ul>
-      <p className="meta mt-3 pl-[6.5rem] text-[0.6875rem] text-muted">Dashed line: 1.0×, no speedup</p>
+      <div className="relative overflow-x-auto">
+        <table className="w-full min-w-[34rem] border-collapse text-left">
+          <caption className="sr-only">Clean set error rates by prompt type. Lower is better.</caption>
+          <thead>
+            <tr>
+              <th scope="col" className={th}>Prompt type</th>
+              <th scope="col" className={`${th} w-[38%]`}>Word error rate</th>
+              <th scope="col" className={`${th} text-right`}>Word errors</th>
+              <th scope="col" className={`${th} text-right`}>Char. error rate</th>
+            </tr>
+          </thead>
+          <tbody className="font-mono text-[0.875rem] tabular-nums">
+            {contentRanked.map((g, i) => (
+              <tr key={g.content}>
+                <th scope="row" className={`${td} font-sans text-[0.9375rem] font-normal`}>
+                  {CONTENT_LABEL[g.content]}
+                </th>
+                <td className={td}>
+                  <span className="flex items-center gap-3">
+                    <span className="flex-1">
+                      <Bar value={top ? werOf(g) / top : 0} delay={i * 0.05} />
+                    </span>
+                    <span className="w-12 text-right">{pct1(werOf(g))}</span>
+                  </span>
+                </td>
+                <td className={`${td} text-right`}>
+                  {errorsOf(g)}
+                  <span className="text-muted">/{fmtInt(g.refWords)}</span>
+                </td>
+                <td className={`${td} text-right`}>{pct1(cerOf(g))}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <Note>
-        Frames in a batch finish at different steps, and the kernel waits for the slowest.
-        The scheduler regroups frames by predicted budget, which recovers some of the loss;
-        closing the rest is the main systems problem we are working on.
+        {CLEAN_SET_LABEL}, all step counts pooled. Character error rate is much lower than word error rate for
+        names because a name that is nearly right (“thandiway” for “thandiwe”) still counts as a whole wrong word.
       </Note>
     </>
   );
 }
 
-function Predictor() {
+function Orig() {
   return (
     <>
-      <dl className="grid gap-px overflow-hidden border border-rule bg-rule sm:grid-cols-2">
-        {PREDICTOR_STATS.map((s) => (
-          <div key={s.label} className="flex flex-col gap-2 bg-paper p-5">
-            <dt className="meta text-muted">{s.label}</dt>
-            <dd className="font-mono text-3xl tracking-[-0.03em] tabular-nums">{s.value}</dd>
-            <dd className="text-[0.875rem] leading-snug text-muted">{s.note}</dd>
-          </div>
-        ))}
-      </dl>
+      <div className="relative overflow-x-auto">
+        <table className="w-full min-w-[34rem] border-collapse text-left">
+          <caption className="sr-only">
+            {RUN_LABEL[ORIG_RUN.id].title} by generation steps. Not a fair measurement of the model.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" className={th}>Steps (NFE)</th>
+              <th scope="col" className={`${th} text-right`}>WER, intro removed</th>
+              <th scope="col" className={`${th} text-right`}>WER, as recorded</th>
+              <th scope="col" className={`${th} text-right`}>Char. error rate</th>
+              <th scope="col" className={`${th} text-right`}>Silent clips</th>
+            </tr>
+          </thead>
+          <tbody className="font-mono text-[0.875rem] tabular-nums">
+            {ORIG_RUN.byNfe.map((g, i) => (
+              <tr key={g.nfe}>
+                <th scope="row" className={`${td} font-normal`}>{g.nfe}</th>
+                <td className={`${td} text-right`}>{pct1(werOf(g))}</td>
+                <td className={`${td} text-right text-muted`}>{pct1(origFullWer[i])}</td>
+                <td className={`${td} text-right`}>{pct1(cerOf(g))}</td>
+                <td className={`${td} text-right`}>{g.rejectedClips}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <Note>
-        The oracle is the smallest step count per frame whose output stays within 0.05 dB
-        log-spectral distance of the full-step result. The training loss penalises
-        under-prediction four times more than over-prediction.
-      </Note>
-    </>
-  );
-}
-
-function Failures() {
-  const worst = Math.max(...FAILURE_CASES.map((f) => Math.abs(f.delta)));
-  return (
-    <>
-      <ul className="border-t border-ink">
-        {FAILURE_CASES.map((f, i) => (
-          <li
-            key={f.case}
-            className="grid gap-2 border-b border-rule py-4 md:grid-cols-[12rem_7rem_1fr] md:items-baseline md:gap-6"
-          >
-            <span className="text-[0.9375rem]">{f.case}</span>
-            <span className="flex items-center gap-3">
-              <span className="font-mono text-[0.9375rem] tabular-nums">
-                −{Math.abs(f.delta).toFixed(2)}
-              </span>
-              <span className="w-12">
-                <Bar value={Math.abs(f.delta) / worst} delay={i * 0.05} />
-              </span>
-            </span>
-            <span className="text-[0.875rem] leading-snug text-muted">{f.why}</span>
-          </li>
-        ))}
-      </ul>
-      <Note>
-        MOS change versus full steps on targeted subsets of 30 utterances each, so intervals
-        are wide (about ±0.12). We publish these because they show where the predictor
-        needs better signals, not just more data.
+        {ORIG_RUN.id}. The intro was “{METRICS.introPhrase}” “As recorded” counts it as added words; the official
+        score removes it. Rates above 100% are possible because added words count as errors too. Silent clips
+        are scored as fully wrong.
       </Note>
     </>
   );

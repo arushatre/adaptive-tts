@@ -1,3 +1,5 @@
+import { METRICS } from "./metrics";
+
 export const NAV_LINKS = [
   { href: "/listen", label: "Listen" },
   { href: "/research", label: "Research" },
@@ -5,8 +7,8 @@ export const NAV_LINKS = [
     href: "/benchmarks",
     label: "Benchmarks",
     children: [
-      { href: "/benchmarks#leaderboard", label: "Leaderboard", meta: "4 methods · 6 metrics" },
-      { href: "/benchmarks#analysis", label: "Analysis", meta: "5 findings · listening tests" },
+      { href: "/benchmarks#results", label: "Results", meta: `WER & CER · ${METRICS.nfe.length} step counts` },
+      { href: "/benchmarks#analysis", label: "Analysis", meta: "Findings, each with its data" },
       { href: "/benchmarks#method", label: "Method", meta: "How every number is measured" },
     ],
   },

@@ -62,3 +62,13 @@ Pulled from Mobbin on 2026-10-02. These are for layout and pattern only. Nothing
 - Borrow: mono dates beside titles, with the row as the hit target. Skip: the green arrow buttons. Ours is a fill that sweeps in behind the row.
 
 **Andon Labs (site, not Mobbin)**: announcement bar above the nav, nav dropdowns, an "evaluated on" credibility strip, "Join the Lab" with open roles. We took the structure and kept our tokens.
+
+## Round 3: real clips and results (2026-10-15)
+
+**Aqua: "Whisper hallucinates" transcript comparison** · https://mobbin.com/sites/sections/63ca4a59-9c14-4a29-82f1-79509365ccfa
+- Borrow: labelled rows (source on the left, sentence on the right) with only the changed words marked inline. Used for the "Prompt / Whisper heard" diff under every clip.
+- Skip: the green/red highlight pills. We underline changed words in the single accent and strike missing ones.
+
+**Telepathic Instruments: sound sampler rows** · https://mobbin.com/sites/sections/a42431a9-054a-4390-818e-8e9e71d0e876
+- Borrow: numbered, ruled rows each with its own play control. Used for the nine step-count rows on /listen.
+- Skip: the dark textured background and neon CTA.

@@ -1,13 +1,13 @@
 "use client";
 
-import { METHOD } from "@/lib/content";
+import { METHOD_NOTES } from "@/lib/metrics";
 import { Disclosure, PlusMinus } from "./Disclosure";
 
 /** Method notes as an accordion: label, one-line summary, full detail. */
 export function MethodList() {
   return (
     <div className="border-t border-ink">
-      {METHOD.map((m, i) => (
+      {METHOD_NOTES.map((m, i) => (
         <Disclosure
           key={m.label}
           header={(open) => (

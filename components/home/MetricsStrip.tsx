@@ -2,7 +2,20 @@
 
 import { animate, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { EVAL_SETS, METRICS } from "@/lib/content";
+import {
+  CLEAN_FIRST,
+  CLEAN_LAST,
+  CLEAN_SET_LABEL,
+  CONTENT_LABEL,
+  METRICS,
+  NFE_MAX,
+  NFE_MIN,
+  cerOf,
+  pct1,
+  promptsPerContent,
+  werOf,
+  type ContentId,
+} from "@/lib/metrics";
 import { Container } from "../Container";
 import { Kicker } from "../Kicker";
 import { MetaLabel } from "../MetaLabel";
@@ -39,12 +52,46 @@ function CountUp({ value, decimals }: { value: number; decimals: number }) {
   );
 }
 
+const clean = METRICS.cleanSet;
+/** Percent values are stored as fractions; the strip shows them ×100. */
+const STATS = [
+  {
+    value: werOf(clean) * 100,
+    decimals: 1,
+    unit: "%",
+    label: "Word error rate",
+    detail: `${CLEAN_SET_LABEL}, all step counts`,
+  },
+  {
+    value: werOf(CLEAN_FIRST) * 100,
+    decimals: 1,
+    unit: "%",
+    label: `WER at ${NFE_MIN} steps`,
+    detail: `${pct1(werOf(CLEAN_LAST))} at ${NFE_MAX} steps`,
+  },
+  {
+    value: cerOf(clean) * 100,
+    decimals: 1,
+    unit: "%",
+    label: "Character error rate",
+    detail: "Same clips, scored letter by letter",
+  },
+  {
+    value: METRICS.overall.clips,
+    decimals: 0,
+    unit: "",
+    label: "Clips scored",
+    detail: `${METRICS.runs.length} runs × ${METRICS.promptCount} prompts × ${METRICS.nfe.length} step counts`,
+  },
+];
+const CONTENT_IDS = Object.keys(CONTENT_LABEL) as ContentId[];
+
 export function MetricsStrip() {
   return (
     <Section aria-label="Key metrics" pad="none" className="pb-24 lg:pb-32">
       <Container>
         <dl className="grid grid-cols-2 gap-px border-b border-rule bg-rule lg:grid-cols-4">
-          {METRICS.map((m, i) => (
+          {STATS.map((m, i) => (
             <div
               key={m.label}
               // before: a hairline that draws in across the top of the hovered cell.
@@ -75,19 +122,21 @@ export function MetricsStrip() {
         </dl>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-12 lg:items-baseline lg:gap-x-6">
-          <Kicker className="text-muted lg:col-span-3">Evaluated on</Kicker>
-          <ul className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-4 lg:col-span-9">
-            {EVAL_SETS.map((set) => (
-              <li key={set.name} className="group flex flex-col gap-1">
-                <span className="text-xl tracking-[-0.02em] text-ink/80 transition-colors duration-200 group-hover:text-ink">
-                  {set.name}
+          <Kicker className="text-muted lg:col-span-3">Prompt types</Kicker>
+          <ul className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-3 xl:grid-cols-6 lg:col-span-9">
+            {CONTENT_IDS.map((id) => (
+              <li key={id} className="group flex flex-col gap-1">
+                <span className="text-lg tracking-[-0.02em] text-ink/80 transition-colors duration-200 group-hover:text-ink">
+                  {CONTENT_LABEL[id]}
                 </span>
-                <span className="meta text-[0.6875rem] text-muted">{set.detail}</span>
+                <span className="meta text-[0.6875rem] text-muted">{promptsPerContent(id)} prompts</span>
               </li>
             ))}
           </ul>
         </div>
-        <MetaLabel className="mt-8 block">Placeholder values · not results</MetaLabel>
+        <MetaLabel className="mt-8 block">
+          Scored with Whisper {METRICS.asr.model} · Lower is better
+        </MetaLabel>
       </Container>
     </Section>
   );

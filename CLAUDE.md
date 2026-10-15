@@ -1,103 +1,135 @@
-# CLAUDE.md — Adaptive TTS Site
+@AGENTS.md
 
-## The task
-Build the public website for an **adaptive text-to-speech (TTS) research project**: a landing page with strong UI, plus a few inner pages. The project tests and evaluates adaptive TTS, meaning speech that changes with context, listener and content. The site should present it the way a research lab would.
+# CLAUDE.md: dots.tts adaptive compute site
 
-**Inspiration:** https://andonlabs.com/ and https://www.proximal.ai/. Take the vibe from them without copying either one. The result must feel like *our* lab.
+Public site for a **WAT.ai** student research team studying **adaptive compute scheduling for dots.tts**, a text-to-speech model. The research question: how does output quality change with **NFE** (number of function evaluations, i.e. generation steps)? Fewer steps is faster, but quality may drop. Team code: GitHub org `Adaptive-Compute-For-TTS`. Deployed on Vercel.
 
-**Working style the user asked for:**
-- Don't hand-roll UI from scratch. Source components and patterns first (Mobbin for references, 21st.dev for components), then restyle them to our tokens.
-- Freedom to choose a style and have fun, but stay inside the design system below.
+The site is **evidence-first**: real benchmarks and data are the visual content. Anything without real content behind it gets cut, not decorated.
 
-## Stack (default, confirm before scaffolding)
-Next.js (App Router, TypeScript), Tailwind CSS, `lucide-react` (sparingly), Geist + Geist Mono via `next/font`.
+You are working as a senior engineer with strong UI/UX judgment: plan before building, keep diffs small and reviewable, never invent data, treat restraint as a design skill.
 
 ---
 
-## What the references actually look like (observed 2026-10-02)
+## Non-negotiable rules
 
-| | Andon Labs | Proximal |
-|---|---|---|
-| Canvas | Warm off-white/cream, white body | Near-black `#0A0A0A`, light text `#ECECEC` / `#D6D6D6` |
-| Display font | Suisse Intl, weight 400, **tight negative tracking** (h1 60px / -3px, h2 36px / -1.8px) | Neue Haas Grotesk, weight 400, h1 72px / lh 1.0 |
-| Labels/nav | Sans, 12px, 50%-opacity ink | **ABC Diatype Mono, 12px, uppercase, +1.44px tracking** |
-| Accent | Deep forest green (announcement bar, Pion block) | Basically none, monochrome |
-| Hero | Declarative claim on the left, documentary product photo (a lamp) on the right | Huge statement only, no image, then a long prose thesis at ~39px |
-| Evidence | Logo strip (Anthropic/OpenAI/DeepMind), deployments, eval cards with top model, dated publications list | Blog rows (category + read time + title + summary + "Read more →"), 10-row leaderboard (#, Model, Score) |
-| Hiring | "Join the Lab" in nav | One line, "View open roles →" |
-
-Shared DNA: regular-weight (not bold) grotesk headlines, generous whitespace, text-arrow links instead of big buttons, numbers and dates used as content.
-
-> Note: the playbook PDF says to use an off-white canvas for both. In reality Proximal is dark. We pick one (see below) rather than mixing them.
+1. **Git:** never run `git add`, `git commit`, `git push`, or stage anything unless the user explicitly asks in chat for that specific action. The user reviews and pushes. Never add `Co-Authored-By`, "Generated with", or any Claude/Anthropic attribution to commits or PR text.
+2. **Dependencies:** never install a package without asking first. Nothing for charts is installed; draw charts as hand-built SVG unless the user approves a library.
+3. **Data honesty:** never invent, estimate, round-trip-by-hand or hardcode a number. Every number on the site comes from a generated data file (see Data). If a number isn't in the data, it doesn't go on the page.
+4. **Checkpoints:** when a task has STOP markers or asks for a plan, stop there and wait for the user. Plan first for anything non-trivial: list every file you'll create, change or delete, and any new dependency.
+5. **Don't redesign:** extend the existing tokens and primitives below. No new colors, fonts or radii without approval.
+6. **Don't touch the user's data files** in `data/raw/` (no renaming, editing or deleting). Read them; write derived files elsewhere.
+7. **Placeholder content is a bug.** Much of the current site is placeholder (see Content status). When you touch a section, check whether its content is real; flag anything that isn't instead of polishing it.
 
 ---
 
-## Our direction: ~65% Proximal / 35% Andon, with audio as the hero artifact
-TTS is a research and evaluation topic, so lead editorially like Proximal. Andon's "real-world evidence" becomes **playable audio**: samples, A/B comparisons and listening-test results. **Listening is our documentary imagery.**
+## Stack and repo map
 
-**Signature element:** a restrained, monochrome waveform/audio row component (play ▸, mono metadata such as `VOICE · CONTEXT · 0:12`, thin rules). Reuse it everywhere instead of decorative imagery.
-
-## Design tokens (inherit, don't improvise)
-- **Color:** bg `#F4F2EC` · ink `#101316` · muted `#5E656B` · rules `#D8D6CF` · **one** accent, pale green `#B8F5D4` *or* pale blue `#C9D6FF` (pick one and never both). Optional dark theme modeled on Proximal: bg `#0A0A0A`, ink `#ECECEC`.
-- **Type:** Display Geist 400 with negative tracking (~-0.04em on hero). Hero 64–96px, line-height 0.95–1.02. H2 36–52px. Body 17–20px. Meta 11–13px **Geist Mono uppercase, tracked +0.1em**. Use tabular numbers in tables.
-- **Spacing:** 4px base · gutters 24/48/64 · section Y 96–144px · element gap 16–32px · prose measure 620–760px.
-- **Surfaces:** radius 0–10px · 1px neutral borders · shadows ~never · no nested cards · background shifts only to mark major sections.
-
-## Hard rules
-**Do:** evidence first · large headlines with narrow prose · full-width rows over card grids · one primary CTA per section, usually a text arrow link · metadata labels (`BENCHMARK`, `SAMPLE`, `PAPER`, `DATE`).
-**Don't:** gradient blobs or glassmorphism · ElevenLabs-style glowing 3D waves · 3-column feature cards by default · pill badges everywhere · animating every section · AI sci-fi art.
-**Litmus test:** remove the shadows, gradients, icons and animation. If the page falls apart, the composition is weak.
+- Next.js **16** (App Router, TypeScript, all routes static), React 19, Tailwind CSS **v4** (no `tailwind.config`; tokens live in `app/globals.css` under `@theme`), `motion` for animation. **No shadcn/ui, no chart or table library.**
+- Next 16 has breaking changes vs. older versions: read `node_modules/next/dist/docs/` before using an API you're unsure of (see AGENTS.md).
+- `app/` routes: `/` (`page.tsx`), `/listen`, `/research`, `/benchmarks`, `/about`. Shared shell in `app/layout.tsx` (Nav, Footer, `GridRails`, `Providers` with `MotionConfig reducedMotion="user"`).
+- `components/`: layout primitives (`Section`, `Container`, `SectionHeader`, `Kicker`, `MetaLabel`, `GridRails`), links (`ArrowLink`, `PrimaryLink` in `ArrowLink.tsx`), `Disclosure`/`Collapse`/`PlusMinus`, `Reveal`, `WaveformPlayer`, and content components (`Leaderboard`, `Findings`, `Pipeline`, `MethodList`, `ResearchIndex`, `SampleList`, `TeamGrid`).
+- `components/home/`: homepage sections (`Hero`, `MetricsStrip`, `AdaptiveDemo`, `StepMask`, `ArchitectureBreakdown`, `FeedbackBox`).
+- `lib/content.ts`, `lib/site.ts`: copy and **placeholder** data. `lib/speech.ts`, `lib/useMockPlayback.ts`: mock audio model (no real audio).
+- `data/raw/`: the team's real benchmark data (read-only). `@/*` path alias and `resolveJsonModule` are enabled, so typed JSON imports work.
+- Several components are shared across routes (`Leaderboard`, `Findings` → `/benchmarks`; `Pipeline` → `/about`). Before deleting a component, grep for every import.
 
 ---
 
-## Sitemap (proposed, confirm with user)
-1. **Home:** blueprint below.
-2. **Listen / Demo:** interactive adaptive-TTS playground: text in, context/listener controls, and the same sentence rendered under different conditions.
-3. **Evals:** benchmark leaderboard plus listening-test (MOS / preference) results, with method notes.
-4. **Research / Writing:** index of posts (category · read time · date · title · one-line summary · →) and a post template.
-5. **About / Join:** thesis, team, one hiring paragraph and one link.
+## Data
 
-## Homepage blueprint
-01 Nav: wordmark left, 3–5 links right (Listen · Evals · Research · Join)
-02 Hero: one thesis of 8–13 words plus ≤55-word paragraph (e.g. *"Speech that adapts to who is listening."*, placeholder)
-03 Proof strip: 1–3 metrics or credibility markers
-04 Featured work: the A/B adaptive sample player (the flagship artifact)
-05 Research index: 3–5 rows
-06 Benchmark: one clean leaderboard/table. Numbers are part of the brand.
-07 Field note: a spectrogram, system diagram or eval-harness screenshot
-08 Join: one paragraph, one link
-09 Footer: email, legal, minimal nav
+### Files (`data/raw/`, read-only)
+| File | Contents |
+|---|---|
+| `clips_arush.csv` | **Scored** clips: 972 rows = 2 runs × 54 prompts × 9 NFE values. 38 columns. |
+| `wer_run_info.json` | How WER/CER were computed (faster-whisper `small`, int8, beam 5, temp 0, English; Whisper EnglishTextNormalizer + custom rules; jiwer 4.0.0) and **reference aggregates** to check against. |
+
+- Runs: `orig_3090`, `xvector_4090`. NFE values: 4, 6, 8, 10, 12, 16, 20, 24, 32.
+- Grouping columns: `run_id`, `nfe`, `prompt_id`, `length` (short/medium/long), `content` (plain, numbers, names_rare_words, acronyms_abbreviations, prosody, phonetic).
+- Headline-metric inputs: `subs_{v}`, `dels_{v}`, `ins_{v}`, `ref_words`, `cer_{v}`, `ref_norm`, where `{v}` is `no_intro` or `full`. Also `heard_errors`, `heard_ref_words`, `wer_heard`.
+- Detail/debug only (never headline): `transcript`, `hyp_norm`, `intro_text`, `trailing_dels_*`, `missing_end_words*`, `duration_s`, `asr_status`, `file`, `repo_path`, `text`, and the per-clip `wer`, `cer`, `wer_uncapped`, `cer_uncapped`.
+- No speaker-similarity (SIM) or latency column exists. If one is added later, confirm with the user before showing it.
+
+### Metric definitions (verified to reproduce `wer_run_info.json` exactly)
+- **Group WER is corpus WER**: `Σ(subs_v + dels_v + ins_v) / Σ ref_words` over the clips in the group. It is **not** the mean of per-clip WER.
+- **Group CER is corpus CER**: `Σ(cer_v × len(ref_norm)) / Σ len(ref_norm)`, using the uncapped per-clip `cer_full` / `cer_no_intro` (reference length counts spaces).
+- **Do not aggregate the plain `wer` / `cer` columns.** They are capped at 1.0 per clip and give wrong group numbers.
+- **Official version is `no_intro`**; `full` counts the accidental intro phrase as inserted words. For `xvector_4090` the two are identical (no intro).
+- Corpus WER can exceed 100% (insertions). Show it as computed; don't clamp.
+- Any script that aggregates this data must check itself against `wer_run_info.json`: `corpus_cer["run_id x nfe"]` (both versions, all 18 groups) and `corpus_wer` (both versions) must match to 4 decimals, or the script exits non-zero.
+- Display: WER/CER as a percentage with one decimal; tabular figures; numeric columns right-aligned; state the direction ("lower is better").
+
+### Known data issues
+- **`orig_3090` is not a fair measurement of the model.** Its reference audio didn't match its transcript, so the model spoke an unintended intro phrase ("Hey, Adam here…") that used up the ~9.12 s clip cap and cut most target sentences off. Even with the intro removed (`no_intro`), its WER stays around 90–109% because the sentence endings are missing. Never show `orig_3090` numbers without a short plain-language note, and don't put it on the same chart scale as `xvector_4090` without the user's approval.
+- **4 clips were rejected as silent** (`asr_status` ≠ `ok`, all in `orig_3090`). Per the run info they stay in the data scored as WER = CER = 1.0 with every word a deletion. Keep them; mention them where clip counts appear.
+- `xvector_4090` is **not monotonic** in NFE (e.g. NFE 20 is worse than 12). Show the data as is; never smooth, interpolate or imply a trend the data doesn't have.
+
+### Pipeline
+Raw CSV → a checked build script in `scripts/` → generated JSON in `data/` (e.g. `data/metrics_summary.json`) → typed import in components. Components read only the generated JSON, never `data/raw/` and never literals.
 
 ---
 
-## Tooling workflow
+## Content status (as of Oct 2026)
 
-### Mobbin (MCP connected): references, not code
-Mobbin returns **screenshots of real sites**. Use it to decide *layout and pattern* before building, then implement against our tokens. Never copy a brand's look.
-- `search_sections` (web): best fit for a landing page. Good queries: "text-to-speech hero with interactive voice demo", "AI model leaderboard table", "research blog index list with categories and read time", "minimal footer with hiring line", "audio sample player list".
-- `search_screens`: for app-like pages (playground controls, audio player states).
-- `search_flows`: multi-step journeys (e.g. trying a demo, then signing up).
-- Workflow: search, then pick 1–2 references per section, then note *what to borrow* (structure, spacing, interaction), then build with tokens. Cite via `mobbin_url`; image URLs expire after 30 days.
-- Useful finds so far: ElevenLabs TTS API demo card (`https://mobbin.com/sites/sections/81b76dd7-5da7-4ac6-9292-c87381d07dc0`), a good structure for an inline demo, but restyle it flatter.
+Placeholder unless replaced with real data:
+- Homepage `Hero` copy and status line, `MetricsStrip`, `AdaptiveDemo`/`StepMask`, the Leaderboard section, `ArchitectureBreakdown`, `Findings`, `ResearchIndex`. All are driven by made-up constants (`STEP_BUDGET`, `PREDICTOR`, `LEADERBOARD`, `METRICS`, `POSTS`, etc. in `lib/content.ts`).
+- `lib/site.ts`: `ANNOUNCEMENT` (nav bar), `MODEL_STATUS` (footer), `CONTACT_EMAIL` (`hello@adaptive-tts.example` is not a real inbox, so `FeedbackBox` mailtos go nowhere).
+- `metadata.description` in `app/layout.tsx`; the "Adaptive TTS" wordmark/name (the real project is WAT.ai / dots.tts; confirm naming with the user).
+- `/about` team photos and bios (labelled as placeholders on the page).
 
-### 21st.dev (not installed yet): component quarry
-Setup: `npx @21st-dev/cli init --client claude --write`. Free tier: search is free, ~2 installs/day, so spend installs on high-value pieces.
-Search by visual job: "minimal editorial hero monochrome oversized typography", "minimal navbar thin border research lab", "editorial project list index rows arrow hover", "minimal leaderboard table monospace metrics", "subtle text reveal split text no gradient", "minimal lab footer hiring contact". Show 3–5 candidates before installing. Take only the interaction, normalize it to our tokens, then delete ~30% of its decoration.
+Real: the benchmark data in `data/raw/`.
 
-## Build loop (don't accept pass one)
-A Structure (wireframe, no effects) → B Direction (try 65/35 and the inverse) → C Component search (Mobbin + 21st) → D Implement (tokens global, one page end-to-end) → E Render → F Critique (what's generic, crowded, too rounded, too animated?) → G Subtract 20–30% → H Lock patterns into components.
+---
 
-**Visual QA:** render 1440 / 1024 / 768 / 390 in the browser pane. Check hierarchy, line length, rhythm, overflow and table usability on mobile. Iterate at least twice.
+## Design system (as implemented)
 
-## Ship checklist
-- Thesis understood in 5 seconds? Real evidence (audio, numbers) before feature claims?
-- Fewer than 3 accents above the fold? Does every card need to be a card?
-- Is body and meta text readable at 390px? Do tables work on mobile?
-- Does motion explain something rather than decorate? Does it still look intentional with no images?
-- Does it feel like our lab, not a clone?
+Direction: an editorial research-lab site (reference points: andonlabs.com, proximal.ai), with structural hairline grid lines and high-contrast sections. Take the vibe, never copy either site.
 
-## Open questions for the user
-- Project/lab name and the one-sentence thesis
-- What "adaptive" means here (listener, context, emotion, environment?) and which real samples or metrics exist
-- Light (Andon-warm) vs dark (Proximal) as the default theme
-- Pale green vs pale blue accent
+**Color tokens** (`app/globals.css`; use the Tailwind names, never raw hex):
+- Light canvas: `paper` #e7e4dc · `ink` #15181b · `muted` #565c61 · `rule` #cdc8bd · `paper-hover` · `sunk` (open panels).
+- Accent (the only one): `accent` #d2cab9 (bone) and `accent-strong` #8c826f. Reserved for **primary CTAs, active indicators and key data points**. Nowhere else.
+- Dark bands: `night` #111214 · `night-raised` · `night-ink` · `night-muted` · `night-rule` · `night-mark` · `night-accent`.
+- `grid` / `grid-faint`: neutral hairlines for rails and textures.
+
+**Type:** Geist (sans) and Geist Mono. Scale tokens: `text-hero` (44→96px, -0.05em), `text-h2` (36→52px, -0.04em), `text-lede`, `text-body` (18px), `text-meta` (12px mono uppercase +0.1em, via the `meta` utility). Display headings use `font-medium`; row titles use `font-normal`. Tables and figures use `tabular-nums`.
+
+**Spacing and layout:** `Container` (max 82rem with the `gutter` utility, 24/48/64px). `section-y` = 96px → 128px at lg. Sections are full-width with a 1px top rule (`Section`, `tone="paper" | "night"`) and registration marks where rules cross the `GridRails`. Headers use a 3/9 asymmetric split (`SectionHeader`: kicker rail left, title and aside right). Prose measure `max-w-measure` (42rem).
+
+**Surfaces:** radius 0–6px, 1px borders, no shadows, no nested cards, no gradients/glass. Background shifts (paper ↔ night) only mark major sections. Textures: `texture-grid` (hero), `texture-dots` (night bands).
+
+**Interaction:** hover = hairline/border highlight or `paper-hover` fill, `transition-colors duration-200`; selected/active = accent. Motion is restrained and must respect `prefers-reduced-motion` (`MotionConfig` handles Motion; CSS transitions are disabled globally under reduce). Every interactive element needs a visible focus state (global `:focus-visible` outline). Tabs follow the ARIA pattern in `ArchitectureBreakdown` (roving tabindex, arrow/Home/End).
+
+**Data sections** (results, tables, charts): the data is the hero.
+- Real `<table>` with `<caption>` and `th scope`. On mobile the table scrolls inside its own `overflow-x-auto` container; the page body never scrolls sideways.
+- Charts: SVG, plain-language axis labels with real tick values, direct line labels where they fit, `role="img"` with a summarizing `aria-label`, and the table as the data alternative. No entrance animation.
+- In data sections, skip the site's decorative habits: no kicker eyebrow above the heading, no `→` appended to links, no fade-up reveal, no cards around the table.
+- Copy: plain sentence case that says exactly what the reader sees. Reader-facing names ("Generation steps (NFE)", "Word error rate"), never column names.
+
+**Don't (anywhere):** gradient blobs, glassmorphism, glowing 3D waves, default 3-column feature cards, badges everywhere, animating every section, AI-generated imagery. Litmus test: remove shadows, gradients, icons and animation; if the page falls apart, the composition is weak. Before finishing any UI task, remove one more thing that isn't pulling its weight.
+
+---
+
+## Verification (every change)
+
+```bash
+npx tsc --noEmit
+npm run lint
+npm run build      # must pass with zero errors and warnings
+npm run dev        # http://localhost:3000 (the user often already has it running; reuse it)
+```
+
+- Render in the browser pane at **1440, 1024, 768 and 390px**. Check hierarchy, line length, overflow (`scrollWidth === clientWidth`), cramped spacing and readable numbers. Fix, then re-check; iterate at least twice.
+- Screenshots in a hidden browser pane can catch animations mid-flight (rAF pauses). Confirm against the DOM before calling something broken.
+- Spot-check numbers on the page against the generated JSON and the build script's terminal output.
+- Final report: every file created, changed or deleted, what was verified, and anything uncertain.
+
+---
+
+## Tools and UI workflow (use on every UI task)
+
+The site's outline and basic UI are fixed: nav, footer, section structure, tokens, type and primitives stay as they are. New work slots into that frame. Research comes before code:
+
+1. **Mobbin MCP first (required).** Before designing any new section or component, search Mobbin for 2–3 queries describing the visual job (`search_sections` for web sections; `search_screens` for app-like UI). Look at the returned images, pick 1–2 references, and write down what to borrow (structure, spacing, interaction) and what to skip. Borrow structure, never a brand's look. Cite each reference's `mobbin_url` in `docs/references.md` and in your plan.
+2. **21st.dev second, when it adds value.** Use it as a component quarry, not an art director. If its MCP/CLI isn't connected, ask the user before setting it up (`npx @21st-dev/cli init --client claude --write`; the free tier allows about 2 installs a day). Show 3–5 candidates before installing anything, take only the interaction or pattern, then restyle it to the tokens above and delete about 30% of its decoration. Never let an installed component bring in its own colors, radii, shadows or fonts.
+3. **Then the design skills.** Apply the design system, the data-section rules and the litmus test above, and render, critique and subtract (see Verification).
+
+Search by visual job ("minimal results table with tabular numbers", "line chart comparing two series with direct labels", "segmented control run switcher"), not by vague style words like "modern" or "clean".
