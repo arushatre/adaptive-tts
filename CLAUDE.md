@@ -124,12 +124,10 @@ npm run dev        # http://localhost:3000 (the user often already has it runnin
 
 ---
 
-## Tools and UI workflow (use on every UI task)
+## Tools and UI workflow
 
-The site's outline and basic UI are fixed: nav, footer, section structure, tokens, type and primitives stay as they are. New work slots into that frame. Research comes before code:
+The site's outline is fixed: nav, footer, section structure, tokens, type and primitives stay as they are, and new work slots into that frame. For any new section or component, research comes before code, in this order:
 
-1. **Mobbin MCP first (required).** Before designing any new section or component, search Mobbin for 2–3 queries describing the visual job (`search_sections` for web sections; `search_screens` for app-like UI). Look at the returned images, pick 1–2 references, and write down what to borrow (structure, spacing, interaction) and what to skip. Borrow structure, never a brand's look. Cite each reference's `mobbin_url` in `docs/references.md` and in your plan.
-2. **21st.dev second, when it adds value.** Use it as a component quarry, not an art director. If its MCP/CLI isn't connected, ask the user before setting it up (`npx @21st-dev/cli init --client claude --write`; the free tier allows about 2 installs a day). Show 3–5 candidates before installing anything, take only the interaction or pattern, then restyle it to the tokens above and delete about 30% of its decoration. Never let an installed component bring in its own colors, radii, shadows or fonts.
-3. **Then the design skills.** Apply the design system, the data-section rules and the litmus test above, and render, critique and subtract (see Verification).
-
-Search by visual job ("minimal results table with tabular numbers", "line chart comparing two series with direct labels", "segmented control run switcher"), not by vague style words like "modern" or "clean".
+1. **Mobbin MCP (required).** 2–3 searches by visual job (`search_sections` for web sections, `search_screens` for app-like UI), e.g. "minimal results table with tabular numbers", not "modern" or "clean". Pick 1–2 references and note what to borrow (structure, spacing, interaction) and what to skip. Borrow structure, never a brand's look. Cite each `mobbin_url` in your plan and in `docs/references.md`.
+2. **21st.dev (optional; not installed, ask first).** A component quarry, not an art director. Show 3–5 candidates, take only the interaction, restyle to tokens and cut about 30% of the decoration. An installed component never brings its own colors, radii, shadows or fonts.
+3. **Design pass.** Apply the design system and data-section rules above, then render, critique and subtract (see Verification).
